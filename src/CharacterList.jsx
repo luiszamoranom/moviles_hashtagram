@@ -1,46 +1,46 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-const api = axios.create({
+const api = axios.create( {
   baseURL: 'https://rickandmortyapi.com/api',
-});
+} );
 
 const CharacterList = () => {
-  const [characters, setCharacters] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [ characters, setCharacters ] = useState( [] );
+  const [ isLoading, setIsLoading ] = useState( true );
+  const [ error, setError ] = useState( null );
 
-  useEffect(() => {
+  useEffect( () => {
     const fetchCharacters = async () => {
-      setIsLoading(true);
+      setIsLoading( true );
       try {
-        const response = await api.get('/character');
-        setCharacters(response.data.results);
-      } catch (error) {
-        setError(error);
+        const response = await api.get( '/character' );
+        setCharacters( response.data.results );
+      } catch ( error ) {
+        setError( error );
       } finally {
-        setIsLoading(false);
+        setIsLoading( false );
       }
     };
 
     fetchCharacters();
-  }, []);
+  }, [] );
 
-  if (isLoading) {
+  if ( isLoading ) {
     return <div>Cargando...</div>;
   }
 
-  if (error) {
-    return <div>Error al obtener personajes: {error.message}</div>;
+  if ( error ) {
+    return <div>Error al obtener personajes: { error.message }</div>;
   }
 
   return (
     <ul>
-      {characters.map((character) => (
-        <li key={character.id}>
-          {character.name}
+      { characters.map( ( character ) => (
+        <li key={ character.id }>
+          { character.name }
         </li>
-      ))}
+      ) ) }
     </ul>
   );
 };
