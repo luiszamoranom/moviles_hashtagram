@@ -1,7 +1,15 @@
 import { Grid, Typography } from '@mui/material';
 import { LoginForm } from '../../components/auth/LoginForm';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+
+  const navigate = useNavigate();
+
+  const onGoToRegister = () => {
+    navigate( '/register' );
+  };
+
   return (
     <Grid
       container
@@ -55,7 +63,8 @@ export const Login = () => {
           mb: 4
         } }
       >
-        <Typography color="secondary.main">¿No tienes una cuenta? </Typography> <Typography color="primary.secondary">Regístrate</Typography>
+        <Typography color="secondary.main">¿No tienes una cuenta? </Typography>
+        <Typography color="primary.secondary" onClick={ onGoToRegister } >Regístrate</Typography>
       </Grid>
 
     </Grid>
