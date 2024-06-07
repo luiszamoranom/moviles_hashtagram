@@ -4,10 +4,17 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../services/authService';
 import { CustomizeProgress } from '../CustomizeProgress';
+import CustomizeAlert from '../shared/Alert';
 
 export const LoginForm = () => {
 
   const [ isOpen, setIsOpen ] = useState( false );
+  // const navigate = useNavigate();
+
+  // Alerta
+  //ALERT
+  const [ isOpenAlert, setIsOpenAlert ] = useState( false );
+  const [ msgAlert, setMsgAlert ] = useState( '' );
 
   const [ showPassword, setShowPassword ] = useState( false );
 
@@ -25,35 +32,52 @@ export const LoginForm = () => {
     setIsOpen( false );
   };
 
+  const handleCloseAlert = () => {
+    setIsOpenAlert( false );
+  };
+
   const onClickShowPassword = () => {
     setShowPassword( !showPassword );
   };
 
-  const onSubmit = ( data ) => {
-    // setIsOpen( true );
-    login( data );
-    // setIsOpen( false );
+  const onSubmit = async ( data ) => {
+    setIsOpen( true );
+
+    const response = await login( data );
+
+    if ( response.success ) {
+      // navigate('/feed');
+    } else {
+      setMsgAlert( 'Credenciales incorrectas' );
+    }
+    setIsOpenAlert( true );
+    setIsOpen( false );
   };
 
   return (
-    <Grid container justifyContent="center" gap={ 2 }
+    <Grid
+      container
+      // direction="column"
+      gap={ 2 }
+      maxWidth="90%"
       sx={ {
-        my: 5
+        my: 5,
+        mx: 'auto'
       } }
     >
-      <Grid item xs={ 10 }>
+      <Grid item xs={ 12 }>
         <TextField
           error={ !!errors.username }
           helperText={ errors.username?.message }
           name="username"
           fullWidth
-          label="Nombre de usuario"
+          placeholder="Nombre de usuario"
           { ...register( 'username', {
             required: "El nombre de usuario es requerido",
           } ) }
         />
       </Grid>
-      <Grid item xs={ 10 }>
+      <Grid item xs={ 12 }>
         <TextField
           error={ !!errors.password }
           helperText={ errors.password?.message }
@@ -70,7 +94,7 @@ export const LoginForm = () => {
               </IconButton>
             </InputAdornment>
           } }
-          label="Contraseña"
+          placeholder="Contraseña"
           { ...register( 'password', {
             required: "La contraseña es requerida",
           } ) }
@@ -79,17 +103,19 @@ export const LoginForm = () => {
           fullWidth
         />
       </Grid>
-      <Grid item xs={ 10 }>
+      <Grid item xs={ 12 }>
         <Button
           variant="contained"
           fullWidth
-          sx={ { py: 0.5, fontSize: 28, textTransform: 'none', fontWeight: 400, mt: 2 } }
+          size='large'
+          sx={ { py: 1, textTransform: 'none', fontWeight: 400, mt: 2 } }
           onClick={ handleSubmit( onSubmit ) }
         >
           Ingresar
         </Button>
       </Grid>
       <CustomizeProgress isOpen={ isOpen } handleClose={ handleClose } />
+      <CustomizeAlert severity={ 'error' } isOpen={ isOpenAlert } message={ msgAlert } handleClose={ handleCloseAlert } />
     </Grid>
   );
 };
