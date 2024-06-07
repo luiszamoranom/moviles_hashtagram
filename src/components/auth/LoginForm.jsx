@@ -3,8 +3,11 @@ import { Button, Grid, IconButton, InputAdornment, TextField } from '@mui/materi
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../../services/authService';
+import { CustomizeProgress } from '../CustomizeProgress';
 
 export const LoginForm = () => {
+
+  const [ isOpen, setIsOpen ] = useState( false );
 
   const [ showPassword, setShowPassword ] = useState( false );
 
@@ -18,12 +21,18 @@ export const LoginForm = () => {
   const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
+  const handleClose = () => {
+    setIsOpen( false );
+  };
+
   const onClickShowPassword = () => {
     setShowPassword( !showPassword );
   };
 
   const onSubmit = ( data ) => {
+    // setIsOpen( true );
     login( data );
+    // setIsOpen( false );
   };
 
   return (
@@ -80,6 +89,7 @@ export const LoginForm = () => {
           Ingresar
         </Button>
       </Grid>
+      <CustomizeProgress isOpen={ isOpen } handleClose={ handleClose } />
     </Grid>
   );
 };
