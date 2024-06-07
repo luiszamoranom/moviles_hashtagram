@@ -1,5 +1,12 @@
 {
   "appId": "hashtagram.app",
   "appName": "hashtagram",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true,
+    "allowNavigation": [
+      "http://34.176.83.207:9999/*"
+    ]
+  }
 }
