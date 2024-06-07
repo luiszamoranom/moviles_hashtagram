@@ -1,18 +1,14 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import AppRoutes from './routes/AppRoutes';
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./routers/AppRouter";
+import { AppTheme } from './theme';
 
 function App() {
   return (
-    <>
-      <div>
-        <BrowserRouter>
-          <div>
-            <AppRoutes />
-          </div>
-        </BrowserRouter>
-        </div>
-    </>
+    <AppTheme>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </AppTheme>
   );
 }
 
