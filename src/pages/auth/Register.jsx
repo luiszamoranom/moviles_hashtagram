@@ -1,9 +1,10 @@
-import { Box, Button, Container, TextField, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, TextField, Grid, Typography, Alert } from '@mui/material';
 import { useForm } from "react-hook-form";
 import CustomizeProgress from '../../components/CustomizeProgress';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthService from '../../services/AuthService';
+import { registrar } from '../../services/authService';
+import CustomizeAlert from '../../components/shared/Alert';
 
 export const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -22,6 +23,16 @@ export const Register = () => {
     }
     setIsOpen(false);
   };
+  //ALERT
+  const [isOpenAlert,setIsOpenAlert] = useState(false)
+  const [msgAlert,setMsgAlert] = useState('')
+  const [severityAlert,setSeverityAlert] = useState('success')
+  const handleCloseAlert = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setIsOpenAlert(false);
+  };
 
   const navigate = useNavigate()
   const handleLoginClick = () => {
@@ -31,7 +42,17 @@ export const Register = () => {
   const onSubmit = async (data) => {
     setIsOpen(true)
     console.log(data)
-    //const response = await AuthService.registrar(data.correo,data.nombre_completo,data.nombre_usuario,data.contrasena)
+    const response = await registrar(data.correo,data.nombre_completo,data.nombre_usuario,data.contrasena)
+    if (response){
+      setMsgAlert('Usuario registrado correctamente')
+      setSeverityAlert('success')
+      setIsOpenAlert(true)
+    }else{
+      setMsgAlert('Usuario no se pudo registrar')
+      setSeverityAlert('error')
+      setIsOpenAlert(true)
+    }
+    //console.log(response)
     setIsOpen(false)
   };
 
@@ -39,6 +60,7 @@ export const Register = () => {
       <Grid container direction="column"
       minHeight="100dvh" width="100dvw" justifyContent={'center'}
       alignItems="center">
+        <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert}/>
         <CustomizeProgress isOpen={isOpen} handleClose={handleClose}/>
         <Grid  container direction="column"
         minHeight="90dvh" width="100dvw"
