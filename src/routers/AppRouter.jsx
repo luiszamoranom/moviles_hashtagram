@@ -18,7 +18,7 @@ function AppRouter() {
       {/* <Route path="/vista2" element={ <Vista2 /> } /> */ }
 
       {/* <Route path="/*" element={ <Navigate to="/login" /> } /> */}
-      <Route path="/*" element={ <Navigate to="/camara" /> } />
+      <Route path="/*" element={ <Navigate to="/home" /> } />
     </Routes>
   );
 }

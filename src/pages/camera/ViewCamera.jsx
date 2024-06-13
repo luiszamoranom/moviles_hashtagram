@@ -1,7 +1,8 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
-import { Grid } from '@mui/material';
+import CameraAltRoundedIcon from '@mui/icons-material/CameraAltRounded';
+import { Box, Button, Grid } from '@mui/material';
 
 
 const ViewCamera = () => {
@@ -24,12 +25,21 @@ const ViewCamera = () => {
           return;
       }
     };
+    useEffect(()=>{
+      takePicture();
+    });
     return (
-        <Grid container direction="column"
-        minHeight="100dvh" width="100dvw" justifyContent={'center'}
-        alignItems="center">
-          <button onClick={() => takePicture()}>Take Photo</button>
-          {photo && <img src={photo} alt="Taken photo" />}
+        <Grid container direction="column" sx={{minHeight:"100dvh",maxHeight:"100dvh",width:"100dvw"}}>
+          <Grid item sx={{flex:1,overflowY:"auto",alignContent:"center",justifyContent:"center"}}>
+            <Box sx={{flex:1,width:"100dvw",alignItems:"center"}}>
+            {photo && <img src={photo} style={{width:"100dvw"}} alt="Taken photo" />}
+            </Box>
+          </Grid>
+          <Grid item sx={{ minHeight: '30dvh', maxHeight: '30dvh',width:'100vw',backgroundColor:"#000AFF"}}>
+            <Grid height={"100%"} >
+              
+            </Grid>
+          </Grid>
         </Grid>
     );
 }
