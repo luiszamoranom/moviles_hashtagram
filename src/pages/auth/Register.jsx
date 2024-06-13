@@ -1,10 +1,11 @@
-import { Box, Button, Container, TextField, Grid, Typography, Alert } from '@mui/material';
+import { Box, Button, IconButton, TextField, Grid, Typography, InputAdornment } from '@mui/material';
 import { useForm } from "react-hook-form";
 import CustomizeProgress from '../../components/CustomizeProgress';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registrar } from '../../services/authService';
 import CustomizeAlert from '../../components/shared/Alert';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -41,20 +42,23 @@ export const Register = () => {
 
   const onSubmit = async (data) => {
     setIsOpen(true)
-    console.log(data)
     const response = await registrar(data.correo,data.nombre_completo,data.nombre_usuario,data.contrasena)
-    if (response){
-      setMsgAlert('Usuario registrado correctamente')
+    if (response.success){
+      setMsgAlert(response.message)
       setSeverityAlert('success')
       setIsOpenAlert(true)
-      navigate('/camara');
+      navigate('/home');
     }else{
-      setMsgAlert('Usuario no se pudo registrar')
+      setMsgAlert(response.message)
       setSeverityAlert('error')
       setIsOpenAlert(true)
     }
-    //console.log(response)
     setIsOpen(false)
+  };
+
+  const [ showPassword, setShowPassword ] = useState( false );
+  const onClickShowPassword = () => {
+    setShowPassword( !showPassword );
   };
 
   return (
@@ -64,9 +68,9 @@ export const Register = () => {
         <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert}/>
         <CustomizeProgress isOpen={isOpen} handleClose={handleClose}/>
         <Grid  container direction="column"
-        minHeight="90dvh" width="100dvw"
+        minHeight="100dvh" width="100dvw"
         justifyContent="space-between" alignItems="center" gap={ 2 }>
-          <Grid container marginTop={'2rem'}
+          <Grid container marginTop={'7rem'}
           justifyContent="center" gap={4}
           width={'90%'}>
             <Grid>
@@ -113,9 +117,20 @@ export const Register = () => {
                   helperText={errors.nombre_usuario ? 'Este campo es requerido' : ''}
                 />
                 <TextField
+                  InputProps={ {
+                    endAdornment: <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={ onClickShowPassword }
+                        edge="end"
+                      >
+                        { showPassword ? <VisibilityOff /> : <Visibility /> }
+                      </IconButton>
+                    </InputAdornment>
+                  } }
                   fullWidth
                   id='contrasena'
-                  type='password'
+                  type={ showPassword ? 'text' : 'password' }
                   {...register('contrasena', { required: true })}
                   placeholder='Contraseña'
                   error={!!errors.contrasena}
@@ -129,7 +144,14 @@ export const Register = () => {
               </Grid>
             </form>
           </Grid>
-          <Grid container justifyContent="center" gap={1} width="90%">
+          <Grid container justifyContent="center" gap={1} width="90%" 
+          sx={ {
+            borderTop: '1px solid',
+            borderTopColor: 'secondary.main',
+            fontSize: '16px',
+            pt: 2,
+            mb: 4
+          } }>
             <Typography color="secondary.main">¿Ya tienes una cuenta? </Typography>
             <Box onClick={handleLoginClick} sx={{ cursor: 'pointer' }}>
               <Typography color="primary.secondary">Inicia sesión</Typography>

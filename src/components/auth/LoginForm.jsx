@@ -5,11 +5,12 @@ import { useForm } from 'react-hook-form';
 import { login } from '../../services/authService';
 import { CustomizeProgress } from '../CustomizeProgress';
 import CustomizeAlert from '../shared/Alert';
+import { useNavigate } from 'react-router-dom';
 
 export const LoginForm = () => {
 
   const [ isOpen, setIsOpen ] = useState( false );
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Alerta
   //ALERT
@@ -47,7 +48,7 @@ export const LoginForm = () => {
 
     if ( response.success ) {
       // navigate('/feed');
-      navigate('/camara');
+      navigate('/home');
     } else {
       setMsgAlert( 'Credenciales incorrectas' );
     }
