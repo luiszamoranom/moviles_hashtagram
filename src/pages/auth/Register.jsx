@@ -47,7 +47,7 @@ export const Register = () => {
       setMsgAlert('Usuario registrado correctamente')
       setSeverityAlert('success')
       setIsOpenAlert(true)
-      navigate('/camara');
+      navigate('/home');
     }else{
       setMsgAlert('Usuario no se pudo registrar')
       setSeverityAlert('error')
