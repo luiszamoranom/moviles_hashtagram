@@ -33,7 +33,7 @@ export const registrar = async (correo, nombre_completo, nombre_usuario,contrase
       return false;
     }
   } catch (error) {
-    //console.error('Error al registrar usuario', error);
+    console.error('Error al registrar usuario', error);
     return false;
   }
 }

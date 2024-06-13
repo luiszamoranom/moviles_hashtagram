@@ -47,6 +47,7 @@ export const LoginForm = () => {
 
     if ( response.success ) {
       // navigate('/feed');
+      navigate('/camara');
     } else {
       setMsgAlert( 'Credenciales incorrectas' );
     }
