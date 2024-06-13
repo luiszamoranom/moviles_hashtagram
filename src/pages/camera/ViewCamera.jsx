@@ -25,9 +25,7 @@ const ViewCamera = () => {
           return;
       }
     };
-    useEffect(()=>{
-      takePicture();
-    });
+
     return (
         <Grid container direction="column" sx={{minHeight:"100dvh",maxHeight:"100dvh",width:"100dvw"}}>
           <Grid item sx={{flex:1,overflowY:"auto",alignContent:"center",justifyContent:"center"}}>
@@ -37,7 +35,9 @@ const ViewCamera = () => {
           </Grid>
           <Grid item sx={{ minHeight: '30dvh', maxHeight: '30dvh',width:'100vw',backgroundColor:"#000AFF"}}>
             <Grid height={"100%"} >
-              
+              <Button onClick={()=>takePicture()}>
+                ABRE CAMARA
+              </Button>
             </Grid>
           </Grid>
         </Grid>
