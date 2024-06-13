@@ -24,16 +24,21 @@ export const registrar = async (correo, nombre_completo, nombre_usuario,contrase
   try {
     const response = await axios.post(`${API_URL}/usuario/registrar`, {
       nombre_completo,nombre_usuario,email:correo,contrasena});
-    console.log(response)
     if (response.status === 201) {
-      //console.log("Usuario registrado correctamente.");
-      return true;
+      return {success:true,message:"Usuario registrado correctamente"};
     }
     else {
       return false;
     }
   } catch (error) {
-    console.error('Error al registrar usuario', error);
-    return false;
+    let message=''
+    if (error.response.status==409){
+      message="Ya existe un usuario con ese nickname o email"
+    }else if(error.response.status==400){
+      message="Error en el formulario"
+    }else{
+      message="Error del servidor"
+    }
+    return {success:false,message:message};
   }
 }

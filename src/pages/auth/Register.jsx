@@ -42,19 +42,17 @@ export const Register = () => {
 
   const onSubmit = async (data) => {
     setIsOpen(true)
-    console.log(data)
     const response = await registrar(data.correo,data.nombre_completo,data.nombre_usuario,data.contrasena)
-    if (response){
-      setMsgAlert('Usuario registrado correctamente')
+    if (response.success){
+      setMsgAlert(response.message)
       setSeverityAlert('success')
       setIsOpenAlert(true)
       navigate('/home');
     }else{
-      setMsgAlert('Usuario no se pudo registrar')
+      setMsgAlert(response.message)
       setSeverityAlert('error')
       setIsOpenAlert(true)
     }
-    //console.log(response)
     setIsOpen(false)
   };
 
