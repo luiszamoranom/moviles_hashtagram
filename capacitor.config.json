@@ -6,7 +6,8 @@
     "androidScheme": "http",
     "cleartext": true,
     "allowNavigation": [
-      "http://34.176.83.207:9999/*"
+      "http://34.176.83.207:9999/*",
+      "http://34.46.61.23:9999/*"
     ]
   }
 }
