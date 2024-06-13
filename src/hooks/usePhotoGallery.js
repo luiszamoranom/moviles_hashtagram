@@ -1,4 +1,4 @@
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType,CameraSource } from '@capacitor/camera';
 import React, { useState } from 'react';
 
 export const usePhotoGallery = () => {
@@ -6,30 +6,21 @@ export const usePhotoGallery = () => {
 
     const takePicture = async () => {
         try {
-            const photo = await Camera.getPhoto({
-                resultType: CameraResultType.Uri,
+            const cameraPhoto = await Camera.getPhoto({
+                resultType: CameraResultType.DataUrl,
                 source: CameraSource.Camera,
-                quality: 100
-            });
-    
+                quality: 100,
+              });
+
             const fileName = new Date().getTime() + '.jpeg';
-            const savedFileImage = await savePhoto(photo, fileName);
-    
-            const newPhotos = [...photos, savedFileImage];
-            setPhotos(newPhotos);
+            const savedFileImage = await savePhoto(cameraPhoto, fileName);
+            if (cameraPhoto?.dataUrl) {
+                const newPhotos = [...photos, savedFileImage];
+                setPhotos(newPhotos);
+            }
         } catch (e) {
             return;
         }
-        
-      
-        // image.webPath will contain a path that can be set as an image src.
-        // You can access the original file using image.path, which can be
-        // passed to the Filesystem API to read the raw data of the image,
-        // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-        // var imageUrl = image.webPath;
-      
-        // // Can be set to the src of an image now
-        // imageElement.src = imageUrl;
     };
 
     const savePhoto = async (photo, fileName) => {
