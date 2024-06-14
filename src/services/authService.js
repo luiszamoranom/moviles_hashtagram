@@ -8,7 +8,6 @@ export const login = async ({username, password}) => {
       nombre_usuario: username,
       contrasena: password
     })
-    console.log(response);
     if ( response.status === 200 ) {
       return {success: true, token: response.data};
     } else {
