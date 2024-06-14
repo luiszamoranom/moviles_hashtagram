@@ -10,8 +10,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export const NavbarPage = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: "white" }}>
+    <Box sx={{ height: "10dvh" }}>
+      <AppBar position="static" sx={{ bgcolor: "white", boxShadow: 0 }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -24,11 +24,12 @@ export const NavbarPage = () => {
           </IconButton>
           <Typography
             variant="h6"
-            color="primary"
+            color="black"
+            fontSize="25px"
             component="div"
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, fontFamily: "Lobster", letterSpacing: "1px" }}
           >
-            News
+            Subir foto
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
