@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export const NavbarPage = () => {
+export const NavbarPage = ({ title }) => {
   return (
     <Box sx={{ height: "10dvh" }}>
       <AppBar position="static" sx={{ bgcolor: "white", boxShadow: 0 }}>
@@ -29,7 +29,7 @@ export const NavbarPage = () => {
             component="div"
             sx={{ flexGrow: 1, fontFamily: "Lobster", letterSpacing: "1px" }}
           >
-            Subir foto
+            {title}
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

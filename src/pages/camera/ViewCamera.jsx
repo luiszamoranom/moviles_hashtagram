@@ -1,11 +1,14 @@
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CollectionsIcon from "@mui/icons-material/Collections";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import { useState } from "react";
 import { NavbarPage } from "../../components/navbar/NavbarPage";
+import { useNavigate } from "react-router-dom";
 
 const ViewCamera = () => {
+  const navigate = useNavigate();
+
   const [photo, setPhoto] = useState(null);
 
   const takePicture = async () => {
@@ -27,6 +30,10 @@ const ViewCamera = () => {
     }
   };
 
+  const handleSubirFoto = () => {
+    navigate("/user/upload-photo", { state: { photo } });
+  };
+
   return (
     <Grid
       container
@@ -34,7 +41,7 @@ const ViewCamera = () => {
       justifyContent="space-between"
       sx={{ height: "100dvh", width: "100dvw" }}
     >
-      <NavbarPage />
+      <NavbarPage title={"Subir foto"} />
       {/* Foto capturada */}
       <Grid
         container
@@ -49,8 +56,8 @@ const ViewCamera = () => {
           sx={{
             border: "1px solid",
             borderColor: "secondary.secondary",
-            width: "80dvw",
-            height: "40dvh",
+            width: "90dvw",
+            height: "50dvh",
           }}
         >
           {
@@ -60,6 +67,7 @@ const ViewCamera = () => {
                 height: "100%",
                 width: "100%",
                 mb: "5rem",
+                aspectRatio: "16/9",
               }}
               alt="Foto capturada"
               src={photo}
@@ -69,62 +77,66 @@ const ViewCamera = () => {
         </Grid>
       </Grid>
 
-      {/* Botones */}
-      <Grid container>
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            height: "30dvh",
-            width: "80dvw",
-            mx: "auto",
-            borderTop: "1px solid",
-            borderTopColor: "secondary.secondary",
-          }}
-        >
-          <Grid container direction="column" gap={4}>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                alignItems: "center",
-              }}
-            >
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+        sx={{
+          height: "30dvh",
+          width: "80dvw",
+          mx: "auto",
+          borderTop: "1px solid",
+          borderTopColor: "secondary.secondary",
+        }}
+      >
+        {photo && (
+          <Stack direction="row" gap={2}>
+            <Grid item xs={12}>
               <Button
                 variant="contained"
-                onClick={() => takePicture()}
+                onClick={handleSubirFoto}
                 startIcon={<CameraAltIcon />}
                 sx={{
                   textTransform: "none",
                   fontSize: 20,
                 }}
               >
-                Capturar foto
+                Subir foto
               </Button>
             </Grid>
-            <Grid
-              item
-              xs={12}
+          </Stack>
+        )}
+        <Stack direction="row" gap={2}>
+          <Grid item xs={8}>
+            <Button
+              variant="contained"
+              onClick={() => takePicture()}
+              startIcon={<CameraAltIcon />}
               sx={{
-                alignItems: "center",
+                textTransform: "none",
+                fontSize: 20,
               }}
             >
-              <Button
-                variant="contained"
-                onClick={() => takePicture()}
-                startIcon={<CollectionsIcon />}
-                sx={{
-                  textTransform: "none",
-                  fontSize: 20,
-                }}
-              >
-                Galería
-              </Button>
-            </Grid>
+              Capturar foto
+            </Button>
           </Grid>
-        </Grid>
+          <Grid item xs={4}>
+            {/* Boton no funcional */}
+            <Button
+              variant="contained"
+              // onClick={() => takePicture()}
+              startIcon={<CollectionsIcon />}
+              sx={{
+                textTransform: "none",
+                fontSize: 20,
+              }}
+            >
+              Galería
+            </Button>
+          </Grid>
+        </Stack>
       </Grid>
     </Grid>
   );
