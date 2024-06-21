@@ -7,7 +7,8 @@ export const theme = createTheme({
       secondary: "#000AFF"
     },
     secondary: {
-      main: "#656565"
+      main: "#656565",
+      secondary: "#BDB6B6"
     },
     mode: 'light' // Aquí se puede cambiar a dark para tener modo oscuro
   }
