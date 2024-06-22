@@ -62,14 +62,25 @@ export const Register = () => {
   };
 
   return (
-      <Grid container direction="column"
-      minHeight="100dvh" maxHeight="100dvh" width="100dvw" justifyContent={'center'}
-      alignItems="center">
+      <Grid 
+        container 
+        direction="column"
+        minHeight="100vh"
+        width="100dvw" 
+        justifyContent={'center'}
+        alignItems="center"
+      >
         <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert}/>
         <CustomizeProgress isOpen={isOpen} handleClose={handleClose}/>
-        <Grid  container direction="column"
-        minHeight="100dvh" width="100dvw"
-        justifyContent="space-between" alignItems="center" gap={ 2 }>
+        <Grid  
+          container 
+          direction="column"
+          minHeight="100vh" 
+          width="100dvw"
+          justifyContent="space-between" 
+          alignItems="center" 
+          gap={ 2 }
+        >
           <Grid container marginTop={'7rem'}
           justifyContent="center" gap={4}
           width={'90%'}>
