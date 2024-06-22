@@ -11,6 +11,20 @@ const ViewCamera = () => {
 
   const [photo, setPhoto] = useState(null);
 
+  const convertToBase64 = async (url) => {
+    return fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      });
+  };
   const takePicture = async () => {
     try {
       try {
@@ -27,6 +41,21 @@ const ViewCamera = () => {
       }
     } catch (e) {
       return;
+    }
+  };
+  const pickImage = async () => {
+    try {
+      const cameraPhoto = await Camera.pickImages({
+        resultType: CameraResultType.DataUrl,
+        quality: 100,
+      });
+      
+      if (cameraPhoto.photos.length > 0 && cameraPhoto.photos[0]?.webPath) {
+        const base64 = await convertToBase64(cameraPhoto.photos[0].webPath);
+        setPhoto(base64);
+      }
+    } catch (error) {
+      console.error("Error picking image", error);
     }
   };
 
@@ -56,6 +85,9 @@ const ViewCamera = () => {
           sx={{
             border: "1px solid",
             borderColor: "secondary.secondary",
+            alignItems:"center",
+            display:'flex',
+            justifyContent:'center',
             width: "90dvw",
             height: "50dvh",
           }}
@@ -64,14 +96,14 @@ const ViewCamera = () => {
             <Box
               component="img"
               sx={{
-                height: "100%",
+                //height: "100%",
+                alignItems:"center",
+                display:'flex',
+                justifyContent:'center',
                 width: "100%",
-                mb: "5rem",
-                aspectRatio: "16/9",
               }}
               alt="Foto capturada"
               src={photo}
-              // src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&w=350&dpr=2"
             />
           }
         </Grid>
@@ -123,10 +155,9 @@ const ViewCamera = () => {
             </Button>
           </Grid>
           <Grid item xs={4}>
-            {/* Boton no funcional */}
             <Button
               variant="contained"
-              // onClick={() => takePicture()}
+              onClick={() => pickImage()}
               startIcon={<CollectionsIcon />}
               sx={{
                 textTransform: "none",
