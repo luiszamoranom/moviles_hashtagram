@@ -1,6 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import Navbar from "../components/navbar/Navbar";
 import ToolbarCustom from "../components/toolbar/Toolbar";
+import Feed from "./feed/Feed";
 
 const Layout = () => {
   return (
@@ -22,7 +23,7 @@ const Layout = () => {
           justifyContent: "center",
         }}
       >
-        <Typography>Al medio van las publicaciones</Typography>
+        <Feed />
       </Grid>
       <Grid item sx={{ minHeight: "10%", maxHeight: "10%", width: "100vw" }}>
         <Navbar />

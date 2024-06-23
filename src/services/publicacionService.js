@@ -22,3 +22,15 @@ export const subirPublicacion = async (propietario,descripcion,ubicacion,base64,
     return {success: false, message: message};
   }
 }
+
+export const obtenerPublicaciones = async () => {
+  try{
+    const response = await axios.get(`${API_URL}/foto`)
+    console.log(response)
+    if (response){
+      return {success:true,message:response.data}
+    }
+  }catch(error){
+    return {success:false,message:'Error al obtener las fotos'}
+  }
+}
