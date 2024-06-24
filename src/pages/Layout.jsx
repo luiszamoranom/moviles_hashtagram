@@ -18,7 +18,6 @@ const Layout = () => {
         sx={{
           minHeight: "88dvh", maxHeight: "88dvh",
           overflowY: "auto",
-          backgroundColor: "gray",
           alignItems: "center",
           justifyContent: "center",
         }}

@@ -1,10 +1,13 @@
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CollectionsIcon from "@mui/icons-material/Collections";
-import { Box, Button, Grid, Stack } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { NavbarPage } from "../../components/navbar/NavbarPage";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/navbar/Navbar";
+import WallpaperOutlinedIcon from '@mui/icons-material/WallpaperOutlined';
+import LayoutWithNavbar from "../LayoutWithNavbar";
 
 const ViewCamera = () => {
   const navigate = useNavigate();
@@ -64,112 +67,126 @@ const ViewCamera = () => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      justifyContent="space-between"
-      sx={{ height: "100dvh", width: "100dvw" }}
-    >
-      <NavbarPage title={"Subir foto"} />
-      {/* Foto capturada */}
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-        direction="column"
+    <LayoutWithNavbar>
+      {/* esto mide 6vh */}
+      <NavbarPage id='navbar-page' title={"Subir foto"} />
+      {/* mide 84vh */}
+      <Grid id='contenido-page'
+        container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}
       >
+        {/* Foto capturada */}
         <Grid
           container
-          justifyContent="start"
-          alignItems="start"
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
+        >
+          <Grid
+            container
+            justifyContent="start"
+            alignItems="start"
+            sx={{
+              boxShadow:10,
+              alignItems:"center",
+              display:'flex',
+              justifyContent:'center',
+              width: "95dvw",
+              height: "73vh",
+              maxHeight: "73vh"
+            }}
+          >
+            {
+              photo?
+              <>
+                <Box
+                  component="img"
+                  sx={{
+                    alignItems:"center",
+                    display:'flex',
+                    justifyContent:'center',
+                    maxWidth: "100%",
+                    maxHeight: "100%",
+                    objectFit: "contain"
+                  }}
+                  alt="Foto capturada"
+                  src={photo}
+                />
+              </>
+              :
+              <Grid sx={{width:'100%'}}>
+                <Grid sx={{display:'flex',justifyContent:'center',alignItems:'center'}} >
+                  <WallpaperOutlinedIcon fontSize="large" />
+                </Grid>
+                <Grid sx={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                  <Typography>
+                    Selecciona o captura una foto
+                  </Typography>
+                </Grid>
+              </Grid> 
+            }
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
           sx={{
-            border: "1px solid",
-            borderColor: "secondary.secondary",
-            alignItems:"center",
-            display:'flex',
-            justifyContent:'center',
-            width: "90dvw",
-            height: "50dvh",
+            height: "15vh",
+            width: "95vw",
+            mx: "auto"
           }}
         >
-          {
-            <Box
-              component="img"
-              sx={{
-                //height: "100%",
-                alignItems:"center",
-                display:'flex',
-                justifyContent:'center',
-                width: "100%",
-              }}
-              alt="Foto capturada"
-              src={photo}
-            />
-          }
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        gap={2}
-        sx={{
-          height: "30dvh",
-          width: "80dvw",
-          mx: "auto",
-          borderTop: "1px solid",
-          borderTopColor: "secondary.secondary",
-        }}
-      >
-        {photo && (
+          {photo && (
+            <Stack direction="row" gap={2}>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  onClick={handleSubirFoto}
+                  startIcon={<CameraAltIcon />}
+                  sx={{
+                    textTransform: "none",
+                    fontSize: 20,
+                  }}
+                >
+                  Subir foto
+                </Button>
+              </Grid>
+            </Stack>
+          )}
           <Stack direction="row" gap={2}>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <Button
                 variant="contained"
-                onClick={handleSubirFoto}
+                onClick={() => takePicture()}
                 startIcon={<CameraAltIcon />}
                 sx={{
                   textTransform: "none",
                   fontSize: 20,
                 }}
               >
-                Subir foto
+                Capturar
+              </Button>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                variant="contained"
+                onClick={() => pickImage()}
+                startIcon={<CollectionsIcon />}
+                sx={{
+                  textTransform: "none",
+                  fontSize: 20,
+                }}
+              >
+                Galería
               </Button>
             </Grid>
           </Stack>
-        )}
-        <Stack direction="row" gap={2}>
-          <Grid item xs={8}>
-            <Button
-              variant="contained"
-              onClick={() => takePicture()}
-              startIcon={<CameraAltIcon />}
-              sx={{
-                textTransform: "none",
-                fontSize: 20,
-              }}
-            >
-              Capturar foto
-            </Button>
-          </Grid>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              onClick={() => pickImage()}
-              startIcon={<CollectionsIcon />}
-              sx={{
-                textTransform: "none",
-                fontSize: 20,
-              }}
-            >
-              Galería
-            </Button>
-          </Grid>
-        </Stack>
+        </Grid>
       </Grid>
-    </Grid>
+    </LayoutWithNavbar>
   );
 };
 

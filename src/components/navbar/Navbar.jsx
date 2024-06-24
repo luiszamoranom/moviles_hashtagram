@@ -3,9 +3,11 @@ import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { BottomNavigation, BottomNavigationAction, Grid } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [value, setValue] = useState(1);
+  const navigate = useNavigate()
   return (
     <Grid container sx={{ height: "100%", width: "100vw" }}>
       <BottomNavigation
@@ -28,7 +30,7 @@ const Navbar = () => {
             />
           }
         />
-        <BottomNavigationAction
+        <BottomNavigationAction onClick={()=>navigate('/user/home')}
           icon={
             <HomeRoundedIcon
               fontSize="large"

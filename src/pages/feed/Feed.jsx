@@ -45,11 +45,11 @@ const Feed = () => {
   });
   
   return (
-    <Grid container sx={{ maxWidth:'100dvw', whiteSpace: 'nowrap', minHeight: '80vh' }}>
+    <Grid id='publicaciones' container sx={{ maxWidth:'100dvw', whiteSpace: 'nowrap', minHeight: '80vh' }}>
       {fotos.length > 0 ? (
         fotos.map((foto, index) => (
-          <Grid item key={index} sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block', verticalAlign: 'top' }}>
-            <Paper elevation={3} sx={{ width: '100%', overflow: 'hidden' }}>
+          <Grid id='grid-publicacion' item key={index} sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block', verticalAlign: 'top' }}>
+            <Paper id='paper-publicacion' sx={{ width: '100%', overflow: 'hidden' }}>
               <Publicacion datosImagen={foto} id={index} />
             </Paper>
           </Grid>

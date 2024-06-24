@@ -8,7 +8,6 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
   let texto_hg = ''
-  console.log(datosImagen.hashtags)
   const transformar = datosImagen.hashtags.map((hg) =>{
     texto_hg += "#" + hg.hashtag.etiqueta
   })
