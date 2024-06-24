@@ -11,6 +11,8 @@ import { subirPublicacion } from "../../services/publicacionService";
 import useAlert from "../../hooks/useAlert";
 import CustomizeProgress from "../../components/CustomizeProgress";
 import CustomizeAlert from "../../components/shared/Alert";
+import Navbar from "../../components/navbar/Navbar";
+import LayoutWithNavbar from "../LayoutWithNavbar";
 
 export const UploadPhoto = () => {
   const location = useLocation();
@@ -66,22 +68,11 @@ export const UploadPhoto = () => {
   }
 
   return (
-    <Grid
-      container
-      direction="column"
-      justifyContent="start" alignItems='center'
-      sx={{ height: "100dvh", width: "100dvw" }}
-    >
+    <LayoutWithNavbar>
       <NavbarPage title={"Subida de publicación"} />
-      <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert}/>
-      <CustomizeProgress isOpen={loading} handleClose={handleClose}/>
-      {/* Foto capturada */}
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-        direction="column"
-      >
+      <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
+      <CustomizeProgress isOpen={loading} handleClose={handleClose} />
+      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}>
         <Grid
           container
           justifyContent="start"
@@ -89,82 +80,82 @@ export const UploadPhoto = () => {
           sx={{
             border: "1px solid",
             borderColor: "secondary.secondary",
-            alignItems:"center",
-            display:'flex',
-            justifyContent:'center',
+            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
             width: "90dvw",
-            height: "50dvh",
+            height: "54vh",
+            maxHeight: '54vh'
           }}
         >
-          {
-            <Box
-              component="img"
-              sx={{
-                //height: "100%",
-                alignItems:"center",
-                display:'flex',
-                justifyContent:'center',
-                width: "100%",
-              }}
-              alt="Foto capturada"
-              src={photo}
-            />
-          }
+          <Box
+            component="img"
+            sx={{
+              alignItems: "center",
+              display: 'flex',
+              justifyContent: 'center',
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain"
+            }}
+            alt="Foto capturada"
+            src={photo}
+          />
         </Grid>
-      </Grid>
-      <FormGroup>
-        <Grid container gap={2} sx={{ width: "90dvw", height: "40dvh",maxHeight: "40dvh" }}>
-          <Grid container sx={{ paddingY: "1rem" }}>
-            <Box sx={{width:'100%',minHeight:'4.5rem',maxHeight:'4.5rem'}} >
-              <TextField type='text' fullWidth id='description' inputProps={{ maxLength: 50 }}
-                {...publicacion('description', { 
-                  required: true,
-                  maxLength: {
-                    value: 50,
-                    message: 'La descripción no puede exceder los 50 caracteres'
-                  }
-                })}
-                placeholder='Descripcion...' error={!!errors.description}
-                helperText={errors.description ? 'Este campo es requerido' : ''}
-              />
-            </Box>
-            <Box sx={{width:'100%',minHeight:'4.5rem',maxHeight:'4.5rem'}} >
-              <TextField type='text' fullWidth id='hashtags'
-                {...publicacion('hashtags', {
-                  required: false,
-                  validate: value => hashtagRegex.test(value) || 'Formato no válido'
-                })}
-                placeholder='#hashtag1 #hola707 ...' error={!!errors.hashtags}
-                helperText={errors.hashtags ? errors.hashtags.message : ''}
-              />
-            </Box>
-            <Box sx={{width:'100%',minHeight:'4.5rem',maxHeight:'4.5rem'}}>
-              <Button onClick={capturaPosition} variant="outlined" fullWidth size="medium"
-                endIcon={<PinDropOutlinedIcon />} sx={{ justifyContent: "space-between" }}>
-                <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>{watch("geolocation")}</Typography>
+        <FormGroup>
+          <Grid container gap={1} sx={{ width: "90dvw", height: "34vh", maxHeight: "34vh" }}>
+            <Grid container sx={{marginTop:'1rem'}}>
+              <Box sx={{ width: '100%', minHeight: '4.5rem', maxHeight: '4.5rem' }} >
+                <TextField type='text' fullWidth id='description' inputProps={{ maxLength: 50 }}
+                  {...publicacion('description', {
+                    required: true,
+                    maxLength: {
+                      value: 50,
+                      message: 'La descripción no puede exceder los 50 caracteres'
+                    }
+                  })}
+                  placeholder='Descripcion...' error={!!errors.description}
+                  helperText={errors.description ? 'Este campo es requerido' : ''}
+                />
+              </Box>
+              <Box sx={{ width: '100%', minHeight: '4.5rem', maxHeight: '4.5rem' }} >
+                <TextField type='text' fullWidth id='hashtags'
+                  {...publicacion('hashtags', {
+                    required: false,
+                    validate: value => hashtagRegex.test(value) || 'Formato no válido'
+                  })}
+                  placeholder='#hashtag1 #hola707 ...' error={!!errors.hashtags}
+                  helperText={errors.hashtags ? errors.hashtags.message : ''}
+                />
+              </Box>
+              <Box sx={{ width: '100%', minHeight: '4.5rem', maxHeight: '4.5rem' }}>
+                <Button onClick={capturaPosition} variant="outlined" fullWidth size="medium"
+                  endIcon={<PinDropOutlinedIcon />} sx={{ justifyContent: "space-between" }}>
+                  <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>{watch("geolocation")}</Typography>
+                </Button>
+                <input type="hidden"
+                  {...publicacion('geolocation', {
+                    required: true,
+                    validate: value => value !== 'Capture ubicación' || 'Por favor, capture su ubicación'
+                  })}
+                  value={watch("geolocation")}
+                />
+                {errors.geolocation && !isCapture && (
+                  <Typography color="error" variant="body2">
+                    {errors.geolocation.message}
+                  </Typography>
+                )}
+              </Box>
+            </Grid>
+            <Grid sx={{ width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+              <Button variant="contained" fullWidth size="large" onClick={handleSubmit(onSubmit)}
+                endIcon={<SendIcon fontSize="xl" />} sx={{ justifyContent: "space-between" }} >
+                <Typography variant="h6" overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>Subir publicación</Typography>
               </Button>
-              <input type="hidden"
-                {...publicacion('geolocation', {
-                  required: true,
-                  validate: value => value !== 'Capture ubicación' || 'Por favor, capture su ubicación'
-                })}
-                value={watch("geolocation")}
-              />
-              {errors.geolocation && !isCapture  && (
-                <Typography color="error" variant="body2">
-                  {errors.geolocation.message}
-                </Typography>
-              )}
-            </Box>
+            </Grid>
           </Grid>
-          <Grid sx={{ width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
-            <Button variant="contained" fullWidth size="large" onClick={handleSubmit(onSubmit)}
-              endIcon={<SendIcon fontSize="xl" />} sx={{ justifyContent: "space-between" }} >
-              <Typography variant="h6" overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>Subir publicación</Typography>
-            </Button>
-          </Grid>
-        </Grid>
-      </FormGroup>
-    </Grid>
+        </FormGroup>
+      </Grid>
+    </LayoutWithNavbar>
   );
 };
