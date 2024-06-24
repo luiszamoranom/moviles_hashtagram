@@ -1,66 +1,94 @@
-import {  Grid, Typography, Box, useScrollTrigger , Paper } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { obtenerPublicaciones } from '../../services/publicacionService'
-import Publicacion from './Publicacion'
+import {
+  Grid,
+  Typography,
+  Box,
+  useScrollTrigger,
+  Paper,
+  Slide,
+} from '@mui/material';
+import React, { useEffect, useState, useRef } from 'react';
+import { obtenerPublicaciones } from '../../services/publicacionService';
+import Publicacion from './Publicacion';
 
 const Feed = () => {
-  const [fotos,setFotos] = useState([])
+  const [fotos, setFotos] = useState([]);
+  const [scrollIndex, setScrollIndex] = useState(0);
+  const gridRef = useRef(null);
+  const [positions, setPositions] = useState([]);
 
   const getPhotos = async () => {
-    const response = await obtenerPublicaciones()
-    if (response.success){
-      setFotos(response.message)
+    const response = await obtenerPublicaciones();
+    if (response.success) {
+      setFotos(response.message);
+      setPositions(new Array(response.message.length).fill(0))
     }
-  }
-
-  useEffect(()=>{
-    getPhotos()
-  },[])
-  
-  // Función para manejar el desplazamiento hacia la siguiente publicación
-  const handleScrollToNextPost = () => {
-    // Encontrar la posición de la siguiente publicación visible
-    const nextPostIndex = Math.min(scrollIndex + 1, fotos.length - 1);
-    // Obtener la posición de la siguiente publicación usando su índice
-    const nextPostElement = document.getElementById(`post-${nextPostIndex}`);
-    // Desplazar hasta la posición de la siguiente publicación
-    nextPostElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // Actualizar el índice de desplazamiento
-    console.log(nextPostIndex)
-    setScrollIndex(nextPostIndex);
   };
 
-  // Estado para mantener el índice de la publicación visible
-  const [scrollIndex, setScrollIndex] = useState(0);
+  useEffect(() => {
+    getPhotos();
+  }, []);
 
-  // Hook de Material-UI para manejar el desplazamiento
-  useScrollTrigger({
-    target: window,
-    threshold: 200, // Umbral opcional para personalizar cuándo se activa el trigger
-    disableHysteresis: true, // Desactiva el efecto histeresis para un desplazamiento más suave
-    // Callback cuando ocurre el evento de desplazamiento
-    onScroll: () => {
-      handleScrollToNextPost();
-    },
-  });
+  const [touchStartCoords, setTouchStartCoords] = useState(null);
+  const [touchEndCoords, setTouchEndCoords] = useState(null);
+
+  const handleTouchStart = (event) => {
+    const touch = event.touches[0];
+    //console.log("empieza: ",touch.clientX,",",touch.clientY)
+    setTouchStartCoords({ x: touch.clientX, y: touch.clientY });
+  };
+
+  const handleTouchEnd = (event) => {
+    const touch = event.changedTouches[0];
+    //console.log("termina: ",touch.clientX,",",touch.clientY)
+    setTouchEndCoords({ x: touch.clientX, y: touch.clientY });
+    // if (touchStartCoords && touchEndCoords) {
+    //   const deltaY = touchStartCoords.y - touchEndCoords.y;
+    //   if (deltaY > 100) {
+    //     console.log("Se mueve hacia arriba la imagen 100");
+    //     setPositions((prevPositions) =>
+    //       prevPositions.map((pos, index) =>
+    //         index === scrollIndex ? pos - 400 : pos
+    //       )
+    //     );
+    //   } else if (deltaY < -100) {
+    //     console.log("Se mueve hacia abajo la imagen 100");
+    //     setPositions((prevPositions) =>
+    //       prevPositions.map((pos, index) =>
+    //         index === scrollIndex ? pos + 400 : pos
+    //       )
+    //     );
+    //   }
+    // }
+  };
   
   return (
-    <Grid id='publicaciones' container sx={{ maxWidth:'100dvw', whiteSpace: 'nowrap', minHeight: '80vh' }}>
-      {fotos.length > 0 ? (
-        fotos.map((foto, index) => (
-          <Grid id='grid-publicacion' item key={index} sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block', verticalAlign: 'top' }}>
-            <Paper id='paper-publicacion' sx={{ width: '100%', overflow: 'hidden' }}>
-              <Publicacion datosImagen={foto} id={index} />
-            </Paper>
+    <Grid onTouchStart={handleTouchStart}
+     onTouchEnd={handleTouchEnd}
+    id='publicaciones' container sx={{ maxWidth: '100vw', whiteSpace: 'nowrap', minHeight: '80vh'}}>
+      
+      {fotos.length > 0 ? 
+        <>
+          <Grid id='grid-actualizar' ref={gridRef} item sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block', verticalAlign: 'top' }}>
+            Actualizando...
           </Grid>
-        ))
-      ) : (
+          {fotos.map((foto, index) => (
+            <Grid id={`grid-publicacion-${index}`} key={index} 
+            sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block',
+             verticalAlign: 'top', transform: `translateY(${positions[index]}px)`,transition: 'transform 0.3s'}}>
+              <Paper id={`paper-publicacion-${index}`} sx={{ width: '100%', overflow: 'hidden' }}>
+                <Publicacion datosImagen={foto} id={index} />
+              </Paper>
+            </Grid>
+            ))
+          }
+        </>
+        : (
         <Grid item>
           <Typography variant="h5">No hay fotos</Typography>
         </Grid>
       )}
     </Grid>
-  )
-}
+  );
+};
 
-export default Feed
+export default Feed;
