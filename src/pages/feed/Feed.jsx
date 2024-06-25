@@ -62,9 +62,13 @@ const Feed = () => {
   };
   
   return (
-    <Grid onTouchStart={handleTouchStart}
-     onTouchEnd={handleTouchEnd}
-    id='publicaciones' container sx={{ maxWidth: '100vw', whiteSpace: 'nowrap', minHeight: '80vh'}}>
+    <Grid 
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      id='publicaciones' 
+      container 
+      sx={{ maxWidth: '100vw', whiteSpace: 'nowrap', minHeight: '88vh',  }}
+    >
       
       {fotos.length > 0 ? 
         <>
@@ -73,9 +77,18 @@ const Feed = () => {
           </Grid>
           {fotos.map((foto, index) => (
             <Grid id={`grid-publicacion-${index}`} key={index} 
-            sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block',
-             verticalAlign: 'top', transform: `translateY(${positions[index]}px)`,transition: 'transform 0.3s'}}>
-              <Paper id={`paper-publicacion-${index}`} sx={{ width: '100%', overflow: 'hidden' }}>
+              sx={{ 
+                minWidth: '100%', 
+                maxWidth: '100%', 
+                display: 'inline-block',
+                verticalAlign: 'top', 
+                transform: `translateY(${positions[index]}px)`,
+                transition: 'transform 0.3s', 
+                // overflowY: 'scroll', 
+              }}
+            >
+              
+              <Paper id={`paper-publicacion-${index}`} sx={{ width: '100%', overflow: 'hidden', scrollSnapAlign: 'center' }}>
                 <Publicacion datosImagen={foto} id={index} />
               </Paper>
             </Grid>
