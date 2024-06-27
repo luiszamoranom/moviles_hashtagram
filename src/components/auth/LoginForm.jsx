@@ -117,7 +117,7 @@ export const LoginForm = () => {
           variant="contained"
           fullWidth
           size="large"
-          sx={{ py: 1, textTransform: "none", fontWeight: 400, mt: 2 }}
+          sx={{ py: 1, fontWeight: 400, mt: 2 }}
           onClick={handleSubmit(onSubmit)}
         >
           Ingresar

@@ -16,10 +16,12 @@ const Layout = () => {
       <Grid id='contenido'
         item
         sx={{
-          minHeight: "88dvh", maxHeight: "88dvh",
-          overflowY: "auto",
+          minHeight: "88vh", 
+          maxHeight: "88vh",
+          overflowY: "scroll",
           alignItems: "center",
           justifyContent: "center",
+          scrollSnapType: 'y mandatory'
         }}
       >
         <Feed />
