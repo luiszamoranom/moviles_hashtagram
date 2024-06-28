@@ -29,11 +29,10 @@ export const Search = () => {
   };
 
   const handleSubmit = async ( e ) => {
+    setStatusApp( STATUS.SEARCH );
     e.preventDefault();
-    // console.log( `Acción automática ejecutada con valor:`, finalValue );
     try {
       await getPhotosByHashtag( searchValue );
-      setStatusApp( STATUS.SEARCH );
     } catch ( error ) {
       setStatusApp( STATUS.ERROR );
     }
