@@ -4,9 +4,11 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { BottomNavigation, BottomNavigationAction, Grid } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useNavbar from "../../hooks/navbar/useNavbar";
 
 const Navbar = ({currentPage = 1}) => {
-  const [value, setValue] = useState(currentPage);
+  //const [value, setValue] = useState(currentPage);
+  const {value,setValue} = useNavbar()
   const navigate = useNavigate()
   return (
     <Grid container sx={{ height: "100%", width: "100vw" }}>
@@ -46,6 +48,7 @@ const Navbar = ({currentPage = 1}) => {
               sx={{ color: value === 2 ? "white" : "#CCB2F1" }}
             />
           }
+          onClick={()=>navigate('/user/profile',{state:1})}
         />
       </BottomNavigation>
     </Grid>
