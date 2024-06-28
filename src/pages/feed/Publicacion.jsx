@@ -1,38 +1,50 @@
-import { Box, Button, Grid, Link, Typography } from '@mui/material'
+import { Box, Button, Grid, Link, Skeleton, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
+import { Link as RouterLink } from 'react-router-dom';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import useNavbar from '../../hooks/navbar/useNavbar';
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
-  let texto_hg = ''
-  const transformar = datosImagen.hashtags.map((hg) =>{
-    texto_hg += "#" + hg.hashtag.etiqueta
-  })
+  const {value,setValue} = useNavbar()
   return (
     <Grid>
       <Grid id='info-usuario' 
       gap={0.2} sx={{minHeight:"5dvh",maxHeight:"5dvh",width:"100%",backgroundColor:"white",display:'flex',paddingX:'0.5rem',paddingY:'0.25rem'}}>
         <Grid sx={{width:'8%',maxWidth:'8%'}} >
-          <Box
-            component="img"
-            sx={{
-              borderRadius: "50%",
-              width: "100%",
-              height: "auto",
-              display: 'block',
-              objectFit: 'cover',
-              aspectRatio: '1/1'
-            }}
-            alt="Foto capturada"
-            src={datosImagen.base64}
-          />
+          {
+            datosImagen.propietario.fotoExtension?
+            <>
+              <Box
+                component="img"
+                sx={{
+                  borderRadius: "50%",
+                  width: "100%",
+                  height: "auto",
+                  display: 'block',
+                  objectFit: 'cover',
+                  aspectRatio: '1/1'
+                }}
+                alt="Foto capturada"
+                src={`data:image/${datosImagen.propietario.fotoExtension};base64,${datosImagen.propietario.fotoPerfil}`}
+              />
+            </>
+            :
+            <>
+              <Skeleton animation="wave" variant="circular" width={'2rem'} height={'2rem'} />
+            </>
+          }
+          
         </Grid>
         <Grid sx={{width:'40%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
-            <Link href='#' sx={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link 
+            onClick={()=>setValue(2)}
+            component={RouterLink} to="/user/profile" state={datosImagen.propietarioId }
+            sx={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>{datosImagen.propietario.nombreUsuario}</strong>
             </Link>
           </Typography>
