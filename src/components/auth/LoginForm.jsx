@@ -12,10 +12,14 @@ import { login } from "../../services/authService";
 import { CustomizeProgress } from "../CustomizeProgress";
 import CustomizeAlert from "../shared/Alert";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from '../../store/user.store';
 
 export const LoginForm = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogin = useUserStore((state) => state.handleLogin);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   // Alerta
   //ALERT
@@ -53,6 +57,7 @@ export const LoginForm = () => {
 
     if (response.success) {
       // navigate('/feed');
+      handleLogin(data.username, response.token)
       navigate("/user/home");
     } else {
       setMsgAlert("Credenciales incorrectas");

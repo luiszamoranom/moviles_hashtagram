@@ -33,3 +33,16 @@ export const obtenerPublicaciones = async () => {
     return {success:false,message:'Error al obtener las fotos'}
   }
 }
+
+export const obtenerPublicacionesPorHashtag = async (hashtag) => {
+  try {
+    const response = await axios.get(`${API_URL}/hashtag/obtener-fotos/${hashtag}`);
+
+    return { success: true, data: response.data};
+  } catch (error) {
+    if ( error.response.status === 404 ) {
+      return { success: false, message: "No se encontraron fotos con ese hashtag"}
+    }
+    return { success: false, message: "Error al obtener las fotos"}
+  }
+}
