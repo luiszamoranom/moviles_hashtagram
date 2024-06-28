@@ -105,7 +105,7 @@ export const Search = () => {
             color="error"
             mt={ 4 }
           >
-            No se pudieron buscar hashtags
+            No se pudo buscar fotos con ese hashtag
           </Typography>
         ) }
       </Grid>
