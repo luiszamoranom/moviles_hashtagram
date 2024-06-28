@@ -114,7 +114,7 @@ export const Search = () => {
         container
         sx={ { minHeight: "6vh", width: "100vw", mt: "auto" } }
       >
-        <Navbar />
+        <Navbar currentPage={0} />
       </Grid>
     </Grid>
   );

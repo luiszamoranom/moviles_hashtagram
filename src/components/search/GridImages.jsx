@@ -7,10 +7,18 @@ import {
 } from "@mui/material";
 
 export const GridImages = ( { loadingSearch, photos } ) => {
+
+  const numberColumns = ( numberPhotos) => {
+    if ( numberPhotos <= 3 ) return 1;
+    if ( numberPhotos <= 12 ) return 2;
+    
+    return 3;
+  };
+
   return (
     <>
       { !loadingSearch  ? (
-        <ImageList sx={ { width: "100%", height: "auto", my: 2 } } cols={ 3 }>
+        <ImageList sx={ { width: "100%", height: "100%", my: 2 } } cols={ numberColumns(photos.length) }>
           { photos.length > 0 && photos.map( ( photo, index ) => (
               <ImageListItem key={ index }>
                 <Box

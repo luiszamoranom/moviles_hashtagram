@@ -5,8 +5,8 @@ import { BottomNavigation, BottomNavigationAction, Grid } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-  const [value, setValue] = useState(1);
+const Navbar = ({currentPage = 1}) => {
+  const [value, setValue] = useState(currentPage);
   const navigate = useNavigate()
   return (
     <Grid container sx={{ height: "100%", width: "100vw" }}>
