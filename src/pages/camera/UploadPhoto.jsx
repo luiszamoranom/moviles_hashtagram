@@ -13,22 +13,17 @@ import CustomizeProgress from "../../components/CustomizeProgress";
 import CustomizeAlert from "../../components/shared/Alert";
 import Navbar from "../../components/navbar/Navbar";
 import LayoutWithNavbar from "../LayoutWithNavbar";
+import useCustomProgress from "../../hooks/useCustomProgress";
 
 export const UploadPhoto = () => {
   const location = useLocation();
   const {getPosition} = useGeolocation();
   const photo = location.state.photo;
-  const [loading, setLoading] = useState(false);
+  const {loading,setLoading} = useCustomProgress()
   const [isCapture,setIsCapture] = useState(false);
   const {isOpenAlert,setIsOpenAlert,msgAlert,setMsgAlert,severityAlert,setSeverityAlert,handleCloseAlert} = useAlert()
   const navigate = useNavigate()
   
-  const handleClose = (event) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setLoading(false);
-  };
 
   const hashtagRegex = /^(#\w{4,11}\s)*#\w{4,11}$/;
   const { register:publicacion, handleSubmit ,formState: { errors },watch,setValue } = useForm({
@@ -71,7 +66,6 @@ export const UploadPhoto = () => {
     <LayoutWithNavbar>
       <NavbarPage title={"Subida de publicación"} />
       <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
-      <CustomizeProgress isOpen={loading} handleClose={handleClose} />
       <Grid container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}>
         <Grid
           container

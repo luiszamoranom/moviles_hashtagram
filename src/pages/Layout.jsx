@@ -2,6 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import Navbar from "../components/navbar/Navbar";
 import ToolbarCustom from "../components/toolbar/Toolbar";
 import Feed from "./feed/Feed";
+import useCustomProgress from "../hooks/useCustomProgress";
 
 const Layout = () => {
   return (

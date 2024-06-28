@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Link, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
@@ -32,8 +32,10 @@ const Publicacion = ({datosImagen}) => {
         </Grid>
         <Grid sx={{width:'40%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
-              {datosImagen.propietario.nombreUsuario}
-            </Typography>
+            <Link href='#' sx={{ textDecoration: 'none', color: 'inherit' }}>
+              <strong>{datosImagen.propietario.nombreUsuario}</strong>
+            </Link>
+          </Typography>
         </Grid>
         <Grid sx={{width:'42%',maxWidth:'42%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <LocationOnOutlinedIcon  fontSize='medium' />
@@ -99,37 +101,41 @@ const Publicacion = ({datosImagen}) => {
         </Grid>
       </Grid>
       <Grid id='detalles-publicacion' 
-        sx={{
-          minHeight: "9dvh",
-          maxHeight: "9dvh",
-          width: "100%",
-          backgroundColor: "white",
-          paddingX: '0.5rem',
-          overflow: 'hidden'  // Asegura que el contenedor principal no tenga desbordamiento visible
-        }}
-      >
-        <Grid sx={{ minHeight: '100%' }}>
-          <Grid>
-            <Typography>
+      sx={{
+        minHeight: "9dvh",
+        maxHeight: "9dvh",
+        width: "100%",
+        backgroundColor: "white",
+        paddingX: '0.5rem',
+        overflow: 'hidden'  // Asegura que el contenedor principal no tenga desbordamiento visible
+      }}
+    >
+      <Grid sx={{ minHeight: '100%' }}>
+        <Grid>
+          <Typography>
+            <Link href='#' sx={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>{datosImagen.propietario.nombreUsuario}</strong>
-            </Typography>
-          </Grid>
-          <Grid sx={{
-            display: 'flex',
-            overflow: 'auto',  
-            maxHeight: 'calc(9dvh - 2rem)',  
-          }}>
-            <Typography>
-              {datosImagen.descripcion} 
-              {
-                datosImagen.hashtags.map((hg) => (
-                  <a href='#' key={hg.hashtag.etiqueta}>{' #' + hg.hashtag.etiqueta}</a>
-                ))
-              }
-            </Typography>
-          </Grid>
+            </Link>
+          </Typography>
+        </Grid>
+        <Grid sx={{
+          overflowY: 'auto',  
+          maxHeight: 'calc(9dvh - 2rem)',  // Ajusta la altura máxima para el desbordamiento
+          flexDirection: 'column'  // Asegura que el contenido se apile verticalmente
+        }}>
+          <Typography sx={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+            {datosImagen.descripcion} 
+            {
+              datosImagen.hashtags.map((hg) => (
+                <a href='#' style={{color:"#914DF0"}} key={hg.hashtag.etiqueta}>{' #' + hg.hashtag.etiqueta}</a>
+              ))
+            }
+          </Typography>
         </Grid>
       </Grid>
+    </Grid>
+
+
     </Grid>
   )
 }
