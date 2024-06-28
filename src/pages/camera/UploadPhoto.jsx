@@ -19,7 +19,7 @@ export const UploadPhoto = () => {
   const location = useLocation();
   const {getPosition} = useGeolocation();
   const photo = location.state.photo;
-  const {loading,setLoading} = useCustomProgress()
+  const {loading,setLoading,handleClose} = useCustomProgress()
   const [isCapture,setIsCapture] = useState(false);
   const {isOpenAlert,setIsOpenAlert,msgAlert,setMsgAlert,severityAlert,setSeverityAlert,handleCloseAlert} = useAlert()
   const navigate = useNavigate()
@@ -65,6 +65,7 @@ export const UploadPhoto = () => {
   return (
     <LayoutWithNavbar>
       <NavbarPage title={"Subida de publicación"} />
+      <CustomizeProgress isOpen={loading} handleClose={handleClose} />
       <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
       <Grid container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}>
         <Grid
