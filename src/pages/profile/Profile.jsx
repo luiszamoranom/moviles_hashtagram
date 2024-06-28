@@ -3,17 +3,16 @@ import LayoutWithNavbar from '../LayoutWithNavbar'
 import { useLocation } from 'react-router-dom'
 import useUsuario from '../../hooks/useUsuario'
 import { NavbarPage } from '../../components/navbar/NavbarPage'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Skeleton, Typography } from '@mui/material'
 
 const Profile = () => {
     const location = useLocation()
     const propietario = location.state
     const {usuario,getInfoUsuario} = useUsuario()
     useEffect(()=>{
-        getInfoUsuario(propietario);
+        getInfoUsuario(propietario)
     },[])
     console.log(usuario)
-
 
     return (
         <LayoutWithNavbar>
@@ -23,10 +22,10 @@ const Profile = () => {
             <Grid id='contenido-page'
                 container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}
             >
-                <Grid id='info-usuario' gap={3} sx={{minHeight:"24vh",maxHeight:"35vh",width:"100%",display:'flex',paddingX:'1rem'}}>
+                <Grid id='info-usuario' gap={3} sx={{minHeight:"24vh",maxHeight:"24vh",width:"100%",display:'flex',paddingX:'1rem'}}>
                     <Grid sx={{minWidth:'35%',maxWidth:'35%'}}>
                         {
-                            usuario.fotoExtension?
+                            usuario?.fotoExtension?
                             <>
                                  <Box
                                     component="img"
@@ -52,12 +51,12 @@ const Profile = () => {
                     <Grid sx={{minWidth:'65%',maxWidth:'65%'}}>
                         <Grid>
                             <Typography>
-                                {usuario.nombreCompleto}
+                                {usuario?.nombreCompleto}
                             </Typography>
                         </Grid>
                         <Grid>
                             <Typography>
-                                {usuario.nombreUsuario}
+                                {usuario?.nombreUsuario}
                             </Typography>
                         </Grid>
                     </Grid>
