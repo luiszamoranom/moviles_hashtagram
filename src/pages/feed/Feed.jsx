@@ -9,6 +9,9 @@ import {
 import React, { useEffect, useState, useRef } from 'react';
 import { obtenerPublicaciones } from '../../services/publicacionService';
 import Publicacion from './Publicacion';
+import useCustomProgress from '../../hooks/useCustomProgress';
+import CustomizeProgress from '../../components/CustomizeProgress';
+import PublicacionSkeleton from './PublicacionSkeleton';
 
 const Feed = () => {
   const [fotos, setFotos] = useState([]);
@@ -69,12 +72,8 @@ const Feed = () => {
       container 
       sx={{ maxWidth: '100vw', whiteSpace: 'nowrap', minHeight: '88vh',  }}
     >
-      
       {fotos.length > 0 ? 
         <>
-          <Grid id='grid-actualizar' ref={gridRef} item sx={{ minWidth: '100%', maxWidth: '100%', display: 'inline-block', verticalAlign: 'top' }}>
-            Actualizando...
-          </Grid>
           {fotos.map((foto, index) => (
             <Grid id={`grid-publicacion-${index}`} key={index} 
               sx={{ 
@@ -96,8 +95,10 @@ const Feed = () => {
           }
         </>
         : (
-        <Grid item>
-          <Typography variant="h5">No hay fotos</Typography>
+        <Grid item sx={{minWidth: '100%', maxWidth: '100%',}}>
+          <Paper sx={{ width: '100%', overflow: 'hidden', scrollSnapAlign: 'center' }}>
+            <PublicacionSkeleton />
+          </Paper>
         </Grid>
       )}
     </Grid>
