@@ -23,6 +23,7 @@ const Navbar = () => {
         }}
       >
         <BottomNavigationAction
+          onClick={()=>navigate('/user/search')}
           icon={
             <SearchRoundedIcon
               fontSize="large"
