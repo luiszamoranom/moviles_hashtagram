@@ -18,6 +18,7 @@ const STATUS = {
 };
 
 export const Search = () => {
+
   const { photos, isLoading, getPhotosByHashtag } = usePhotosByHashtag();
 
   const [ statusApp, setStatusApp ] = useState( STATUS.START );
