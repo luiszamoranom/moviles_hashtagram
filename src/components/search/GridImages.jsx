@@ -5,8 +5,11 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
+// import { useNavigate } from 'react-router-dom';
 
 export const GridImages = ( { loadingSearch, photos } ) => {
+
+  // const navigate = useNavigate();
 
   const numberColumns = ( numberPhotos) => {
     if ( numberPhotos <= 3 ) return 1;
@@ -14,6 +17,11 @@ export const GridImages = ( { loadingSearch, photos } ) => {
     
     return 3;
   };
+
+  const handleGoToImage = (photo) => {
+    console.log('Hola')
+    // navigate(`/user/search/image`, { state: { photo }, replace: true })
+  }
 
   return (
     <>
@@ -27,10 +35,12 @@ export const GridImages = ( { loadingSearch, photos } ) => {
                     width: "100%",
                     height: "auto",
                     objectFit: "contain",
+                    cursor: 'pointer'
                   } }
                   alt="Foto capturada"
                   src={ photo.base64 }
                   loading="lazy"
+                  onClick={() => handleGoToImage(photo)}
                 />
               </ImageListItem>
             ) ) }
