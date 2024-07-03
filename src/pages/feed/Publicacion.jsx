@@ -5,9 +5,15 @@ import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { Link as RouterLink } from 'react-router-dom';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
+
+  const handleClick = () => {
+    console.log("Presionaste para no ver más")
+  }
+
   return (
     <Grid>
       <Grid id='info-usuario' 
@@ -38,7 +44,7 @@ const Publicacion = ({datosImagen}) => {
           }
           
         </Grid>
-        <Grid sx={{width:'40%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
+        <Grid sx={{width:'30%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
             component={RouterLink} to="/user/profile" state={datosImagen.propietarioId}
@@ -47,13 +53,13 @@ const Publicacion = ({datosImagen}) => {
             </Link>
           </Typography>
         </Grid>
-        <Grid sx={{width:'42%',maxWidth:'42%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
+        <Grid sx={{width:'32%',maxWidth:'42%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <LocationOnOutlinedIcon  fontSize='medium' />
           <Typography overflow='hidden' variant='caption' textOverflow='ellipsis' whiteSpace='nowrap'>
               {datosImagen.ubicacion}
           </Typography>
         </Grid>
-        <Grid sx={{width:'10%',maxWidth:'10%',justifyContent:'center', alignItems: 'center', display:'flex'}} >
+        <Grid sx={{width:'15%',maxWidth:'15%',justifyContent:'center', alignItems: 'center', display:'flex'}} >
           <Button onClick={()=>setLike(true)} sx={{padding:0,margin:0,minWidth:'10%'}}>
             {
               like?
@@ -65,6 +71,11 @@ const Publicacion = ({datosImagen}) => {
                 <FavoriteBorderOutlinedIcon color='error' />
               </>
             }
+          </Button>
+        </Grid>
+        <Grid sx={{width:'15%',maxWidth:'15%',justifyContent:'center', alignItems: 'center', display:'flex'}} >
+        <Button onClick={handleClick}sx={{padding:0,margin:0,minWidth:'10%'}}>
+            <VisibilityOffIcon fontSize='small' color='colorNegro' />
           </Button>
         </Grid>
       </Grid>

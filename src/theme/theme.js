@@ -13,6 +13,9 @@ export const theme = createTheme({
     searchInput: {
       main: "#ED4DF0"
     },
+    colorNegro: {
+      main: "#000000"
+    },
     mode: 'light' // Aquí se puede cambiar a dark para tener modo oscuro
   }
 })
