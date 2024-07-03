@@ -1,10 +1,9 @@
-import { Box, Button, Grid, Link, Skeleton, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
-import { Link as RouterLink } from 'react-router-dom';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import { Box, Button, Grid, Link, Skeleton, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
@@ -27,7 +26,6 @@ const Publicacion = ({datosImagen}) => {
                   aspectRatio: '1/1'
                 }}
                 alt="Foto capturada"
-                loading='lazy'
                 src={`data:image/${datosImagen.propietario.fotoExtension};base64,${datosImagen.propietario.fotoPerfil}`}
               />
             </>
@@ -41,7 +39,7 @@ const Publicacion = ({datosImagen}) => {
         <Grid sx={{width:'40%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
-            component={RouterLink} to="/user/profile" state={datosImagen.propietarioId}
+            component={RouterLink} to="/user/profile" state={datosImagen.propietarioId }
             sx={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>{datosImagen.propietario.nombreUsuario}</strong>
             </Link>
@@ -106,7 +104,6 @@ const Publicacion = ({datosImagen}) => {
               objectFit: 'contain',
             }}
             alt="Foto capturada"
-            loading='lazy'
             src={datosImagen.base64}
           />
         </Grid>
@@ -136,11 +133,6 @@ const Publicacion = ({datosImagen}) => {
         }}>
           <Typography sx={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
             {datosImagen.descripcion} 
-            {
-              datosImagen.hashtags.map((hg) => (
-                <a href='#' style={{color:"#914DF0"}} key={hg.hashtag.etiqueta}>{' #' + hg.hashtag.etiqueta}</a>
-              ))
-            }
           </Typography>
         </Grid>
       </Grid>
