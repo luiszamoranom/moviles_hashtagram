@@ -3,8 +3,8 @@ import { Preferences } from '@capacitor/preferences';
 
 const storageApi = {
   getItem: async function (name) {
-    const item = await Preferences.get( { name } );
-    return item ? JSON.parse(item.value) : null;
+    const item = await Preferences.get( { key: name } );
+    return item.value ? JSON.parse(item.value) : null;
   },
   setItem: async function (name, value) {
     await Preferences.set({
@@ -13,8 +13,8 @@ const storageApi = {
     });
   },
   removeItem: async function (name) {
-    await Preferences.remove({name});
+    await Preferences.remove({ key: name });
   },
 };
 
-export const customCapacitorStorage = createJSONStorage(storageApi);
+export const customCapacitorStorage = createJSONStorage(() => storageApi);
