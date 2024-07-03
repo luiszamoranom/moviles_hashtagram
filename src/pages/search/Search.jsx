@@ -7,10 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import Navbar from "../../components/navbar/Navbar";
 import { GridImages } from "../../components/search/GridImages";
 import { usePhotosByHashtag } from "../../hooks/photos/usePhotosByHashtag";
-import LayoutWithNavbar from "../LayoutWithNavbar"
+import LayoutWithNavbar from "../LayoutWithNavbar";
 
 const STATUS = {
   START: "START",
