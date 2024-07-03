@@ -9,17 +9,18 @@ export const useUserStore = create(
       username: '',
       token: ''
     },
-
     handleLogin: (username, token) => set({ 
       user: {
         username,
         token 
       }
     }),
-    handleLogout: () => {
-      set({ token: '' })
-      
-    },
+    handleLogout: () => set({ 
+        user: { 
+          username: '', 
+          token: ''
+      }
+    })
   }), {
     name: 'user-storage',
     storage: customCapacitorStorage
