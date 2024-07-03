@@ -5,11 +5,9 @@ import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { Link as RouterLink } from 'react-router-dom';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import useNavbar from '../../hooks/navbar/useNavbar';
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
-  const {value,setValue} = useNavbar()
   return (
     <Grid>
       <Grid id='info-usuario' 
@@ -29,6 +27,7 @@ const Publicacion = ({datosImagen}) => {
                   aspectRatio: '1/1'
                 }}
                 alt="Foto capturada"
+                loading='lazy'
                 src={`data:image/${datosImagen.propietario.fotoExtension};base64,${datosImagen.propietario.fotoPerfil}`}
               />
             </>
@@ -42,8 +41,7 @@ const Publicacion = ({datosImagen}) => {
         <Grid sx={{width:'40%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
-            onClick={()=>setValue(2)}
-            component={RouterLink} to="/user/profile" state={datosImagen.propietarioId }
+            component={RouterLink} to="/user/profile" state={datosImagen.propietarioId}
             sx={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>{datosImagen.propietario.nombreUsuario}</strong>
             </Link>
@@ -108,6 +106,7 @@ const Publicacion = ({datosImagen}) => {
               objectFit: 'contain',
             }}
             alt="Foto capturada"
+            loading='lazy'
             src={datosImagen.base64}
           />
         </Grid>

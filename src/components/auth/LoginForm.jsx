@@ -13,11 +13,13 @@ import { CustomizeProgress } from "../CustomizeProgress";
 import CustomizeAlert from "../shared/Alert";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from '../../store/user.store';
+import usuarioStore from "../../store/usuarioStore";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
 
   const handleLogin = useUserStore((state) => state.handleLogin);
+  const {setUser} = usuarioStore()
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,9 +58,13 @@ export const LoginForm = () => {
     const response = await login(data);
 
     if (response.success) {
-      // navigate('/feed');
-      handleLogin(data.username, response.token)
-      navigate("/user/home");
+      setUser({
+        accessToken:response.message.accessToken,
+        nombreCompleto:response.message.nombreCompleto,
+        nombreUsuario:response.message.nombreUsuario,
+        usuarioId:response.message.usuarioId
+      })
+      navigate("/user/home",{replace:true});
     } else {
       setMsgAlert("Credenciales incorrectas");
     }

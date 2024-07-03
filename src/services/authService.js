@@ -9,7 +9,7 @@ export const login = async ({username, password}) => {
       contrasena: password
     })
     if ( response.status === 200 ) {
-      return {success: true, token: response.data};
+      return {success: true, message: response.data};
     } else {
       return {success: false, status: response.status};
     }

@@ -8,13 +8,16 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { AppTheme } from './theme/AppTheme.jsx';
 import { BrowserRouter } from 'react-router-dom';
+import { NavbarProvider } from './context/Navbar.jsx';
 
 ReactDOM.createRoot( document.getElementById( 'root' ) ).render(
   <React.StrictMode>
     <AppTheme>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <NavbarProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </NavbarProvider>
     </AppTheme>
   </React.StrictMode>,
 );

@@ -1,30 +1,32 @@
-import React, { useState } from 'react'
+import { Preferences } from '@capacitor/preferences';
+import { useState } from 'react';
+
 
 const useNavbar = () => {
-    const [value, setValue] = useState(1);
+    const [valuePage,setValuePage] = useState(1)
+
+    const setPage = async (num_page) => {
+        console.log(num_page)
+        await Preferences.set({
+          key: 'page',
+          value: num_page,
+        });
+        setValuePage(num_page)
+    };
+    
+    const getPage = async () => {
+        const { value } = await Preferences.get({ key: 'page' });
+        setValuePage(value)
+    };
+    
+    const removeName = async () => {
+        await Preferences.remove({ key: 'name' });
+    };
+
     return {
-        value,setValue
+        setPage,getPage,removeName,valuePage
     }
 }
-
 export default useNavbar
 
-//queda pendiente usar useContext:
-// import React, { useState, createContext, useContext } from 'react';
 
-// const NavbarContext = createContext();
-
-// export const NavbarProvider = ({ children }) => {
-//     const [value, setValue] = useState(1);
-//     console.log(value);
-
-//     return (
-//         <NavbarContext.Provider value={{ value, setValue }}>
-//             {children}
-//         </NavbarContext.Provider>
-//     );
-// };
-
-// export const useNavbar = () => {
-//     return useContext(NavbarContext);
-// };

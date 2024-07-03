@@ -1,8 +1,9 @@
 import { Grid } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../components/navbar/Navbar'
 import CustomizeProgress from '../components/CustomizeProgress'
+import usuarioStore from '../store/usuarioStore'
 
 const LayoutWithNavbar = ({ children }) => {
   return (
