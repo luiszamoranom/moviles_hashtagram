@@ -14,6 +14,8 @@ import CustomizeAlert from "../../components/shared/Alert";
 import Navbar from "../../components/navbar/Navbar";
 import LayoutWithNavbar from "../LayoutWithNavbar";
 import useCustomProgress from "../../hooks/useCustomProgress";
+import usuarioStore from "../../store/usuarioStore";
+import useUsuarioCache from "../../hooks/usuario/useUsuarioCache";
 
 export const UploadPhoto = () => {
   const location = useLocation();
@@ -24,6 +26,7 @@ export const UploadPhoto = () => {
   const {isOpenAlert,setIsOpenAlert,msgAlert,setMsgAlert,severityAlert,setSeverityAlert,handleCloseAlert} = useAlert()
   const navigate = useNavigate()
   
+  const {userCredentials} = useUsuarioCache()
 
   const hashtagRegex = /^(#\w{4,11}\s)*#\w{4,11}$/;
   const { register:publicacion, handleSubmit ,formState: { errors },watch,setValue } = useForm({
@@ -48,7 +51,7 @@ export const UploadPhoto = () => {
     for (let i = 0; i<separados.length; i++){
       separados[i] = separados[i].substring(1)
     }
-    const response = await subirPublicacion(1,data.description,data.geolocation,photo,separados)
+    const response = await subirPublicacion(userCredentials?.usuarioId,data.description,data.geolocation,photo,separados)
     setLoading(false)
     if (response.success){
       setMsgAlert(response.message)

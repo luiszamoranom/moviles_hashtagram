@@ -5,8 +5,6 @@ import { customCapacitorStorage } from './storages/capacitor.storage';
 
 export const useUserStore = create(
   persist((set) => ({
-    
-
     user: {
       username: '',
       token: ''
@@ -14,7 +12,7 @@ export const useUserStore = create(
 
     handleLogin: (username, token) => set({ 
       user: {
-        username, 
+        username,
         token 
       }
     }),

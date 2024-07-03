@@ -10,6 +10,7 @@ import { useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { GridImages } from "../../components/search/GridImages";
 import { usePhotosByHashtag } from "../../hooks/photos/usePhotosByHashtag";
+import LayoutWithNavbar from "../LayoutWithNavbar"
 
 const STATUS = {
   START: "START",
@@ -40,82 +41,81 @@ export const Search = () => {
   };
 
   return (
-    <Grid
-      container
-      direction="column"
-      sx={ { minHeight: "100vh", width: "100vw" } }
-    >
-      <Grid container minHeight="8vh" px={ 2 } py={ 1 }>
-        <Box component="form" width="100%" onSubmit={ handleSubmit }>
-          <TextField
-            color="searchInput"
-            variant="outlined"
-            fullWidth
-            focused
-            placeholder="Buscar..."
-            value={ searchValue }
-            onChange={ handleInputChange }
-            InputProps={ {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="searchInput" />
-                </InputAdornment>
-              ),
-              sx: {
-                borderWidth: "1rem",
-                borderRadius: 2,
-                color: "searchInput.main",
-                "& .MuiInputBase-input::placeholder": {
-                  color: "searchInput.main", // Cambia el color aquí
-                  opacity: 1, // Asegúrate de que sea visible
-                },
-              },
-            } }
-          />
-        </Box>
-      </Grid>
-      <Grid
+    <LayoutWithNavbar>
+       <Grid
+        id="contenido-page"
         container
-        // flex={ 1 }
-        minHeight="100%"
-        alignItems="start"
-      >
-        { statusApp === STATUS.SEARCH && (
-          <GridImages loadingSearch={ isLoading } photos={ photos } />
-        ) }
-        { statusApp === STATUS.START && (
-          <Typography
-            variant="h6"
-            component="h6"
-            width="100%"
-            textAlign="center"
-            fontWeight={ 400 }
-            mt={ 4 }
-          >
-            Ingresa un hashtag para buscar fotos
-          </Typography>
-        ) }
-        { statusApp === STATUS.ERROR && (
-          <Typography
-            variant="h6"
-            component="h6"
-            width="100%"
-            textAlign="center"
-            fontWeight={ 400 }
-            color="error"
-            mt={ 4 }
-          >
-            No se pudo buscar fotos con ese hashtag
-          </Typography>
-        ) }
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{ minHeight: "94vh", maxHeight: "94vh", overflowY: "auto" }}
+            >
+          <Grid container minHeight="8vh" maxHeight="8vh" px={ 2 } py={ 1 }>
+            <Box component="form" width="100%" onSubmit={ handleSubmit }>
+              <TextField
+                color="searchInput"
+                variant="outlined"
+                fullWidth
+                focused
+                placeholder="Buscar..."
+                value={ searchValue }
+                onChange={ handleInputChange }
+                InputProps={ {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon color="searchInput" />
+                    </InputAdornment>
+                  ),
+                  sx: {
+                    borderWidth: "1rem",
+                    borderRadius: 2,
+                    color: "searchInput.main",
+                    "& .MuiInputBase-input::placeholder": {
+                      color: "searchInput.main", // Cambia el color aquí
+                      opacity: 1, // Asegúrate de que sea visible
+                    },
+                  },
+                } }
+              />
+            </Box>
+          </Grid>
+          <Grid
+          container
+          // flex={ 1 }
+          minHeight="86vh"
+          maxHeight="86vh"
+          alignItems="start"
+        >
+          { statusApp === STATUS.SEARCH && (
+            <GridImages loadingSearch={ isLoading } photos={ photos } />
+          ) }
+          { statusApp === STATUS.START && (
+            <Typography
+              variant="h6"
+              component="h6"
+              width="100%"
+              textAlign="center"
+              fontWeight={ 400 }
+              mt={ 4 }
+            >
+              Ingresa un hashtag para buscar fotos
+            </Typography>
+          ) }
+          { statusApp === STATUS.ERROR && (
+            <Typography
+              variant="h6"
+              component="h6"
+              width="100%"
+              textAlign="center"
+              fontWeight={ 400 }
+              color="error"
+              mt={ 4 }
+            >
+              No se pudo buscar fotos con ese hashtag
+            </Typography>
+          ) }
+          </Grid>
       </Grid>
-      <Grid
-        id="navbar"
-        container
-        sx={ { minHeight: "6vh", width: "100vw", mt: "auto" } }
-      >
-        <Navbar currentPage={0} />
-      </Grid>
-    </Grid>
+    </LayoutWithNavbar>
   );
 };
