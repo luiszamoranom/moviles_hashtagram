@@ -95,7 +95,7 @@ const EditProfile = () => {
             const cameraPhoto = await Camera.getPhoto({
               resultType: CameraResultType.DataUrl,
               source: CameraSource.Camera,
-              quality: 100,
+              quality: 30,
             });
             if (cameraPhoto?.dataUrl) {
                 setImagePreview(cameraPhoto.dataUrl);
