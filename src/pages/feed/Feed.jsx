@@ -12,15 +12,18 @@ import Publicacion from './Publicacion';
 import useCustomProgress from '../../hooks/useCustomProgress';
 import CustomizeProgress from '../../components/CustomizeProgress';
 import PublicacionSkeleton from './PublicacionSkeleton';
+import useUsuarioCache from '../../hooks/usuario/useUsuarioCache'
 
 const Feed = () => {
   const [fotos, setFotos] = useState([]);
   const [scrollIndex, setScrollIndex] = useState(0);
   const gridRef = useRef(null);
   const [positions, setPositions] = useState([]);
+  const {userCredentials} = useUsuarioCache()
 
   const getPhotos = async () => {
-    const response = await obtenerPublicaciones();
+    const usuarioId = userCredentials.usuarioId;
+    const response = await obtenerPublicaciones(usuarioId);
     if (response.success) {
       setFotos(response.message);
       setPositions(new Array(response.message.length).fill(0))
@@ -28,8 +31,11 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    getPhotos();
-  }, []);
+    if(userCredentials.usuarioId){
+      console.log("cargó")
+      getPhotos();
+    }
+  }, [userCredentials]);
 
   const [touchStartCoords, setTouchStartCoords] = useState(null);
   const [touchEndCoords, setTouchEndCoords] = useState(null);

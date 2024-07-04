@@ -20,7 +20,7 @@ const Publicacion = ({datosImagen}) => {
       gap={0.2} sx={{minHeight:"5dvh",maxHeight:"5dvh",width:"100%",backgroundColor:"white",display:'flex',paddingX:'0.5rem',paddingY:'0.25rem'}}>
         <Grid sx={{width:'8%',maxWidth:'8%'}} >
           {
-            datosImagen.propietario.fotoExtension?
+            datosImagen.usuario.fotoExtension?
             <>
               <Box
                 component="img"
@@ -34,7 +34,7 @@ const Publicacion = ({datosImagen}) => {
                 }}
                 alt="Foto capturada"
                 loading='lazy'
-                src={`data:image/${datosImagen.propietario.fotoExtension};base64,${datosImagen.propietario.fotoPerfil}`}
+                src={`data:image/${datosImagen.usuario.fotoExtension};base64,${datosImagen.usuario.fotoPerfil}`}
               />
             </>
             :
@@ -47,16 +47,16 @@ const Publicacion = ({datosImagen}) => {
         <Grid sx={{width:'30%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
-            component={RouterLink} to="/user/profile" state={datosImagen.propietarioId}
+            component={RouterLink} to="/user/profile" state={datosImagen.usuario.id}
             sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <strong>{datosImagen.propietario.nombreUsuario}</strong>
+              <strong>{datosImagen.usuario.nombreUsuario}</strong>
             </Link>
           </Typography>
         </Grid>
         <Grid sx={{width:'32%',maxWidth:'42%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <LocationOnOutlinedIcon  fontSize='medium' />
           <Typography overflow='hidden' variant='caption' textOverflow='ellipsis' whiteSpace='nowrap'>
-              {datosImagen.ubicacion}
+              {datosImagen.foto.ubicacion}
           </Typography>
         </Grid>
         <Grid sx={{width:'15%',maxWidth:'15%',justifyContent:'center', alignItems: 'center', display:'flex'}} >
@@ -96,7 +96,7 @@ const Publicacion = ({datosImagen}) => {
             zIndex: 1,
           }}
           alt="Foto difuminada"
-          src={datosImagen.base64}
+          src={datosImagen.foto.base64}
         />
         <Grid 
           sx={{
@@ -118,7 +118,7 @@ const Publicacion = ({datosImagen}) => {
             }}
             alt="Foto capturada"
             loading='lazy'
-            src={datosImagen.base64}
+            src={datosImagen.foto.base64}
           />
         </Grid>
       </Grid>
@@ -136,7 +136,7 @@ const Publicacion = ({datosImagen}) => {
         <Grid>
           <Typography>
             <Link href='#' sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <strong>{datosImagen.propietario.nombreUsuario}</strong>
+              <strong>{datosImagen.usuario.nombreUsuario}</strong>
             </Link>
           </Typography>
         </Grid>
@@ -146,9 +146,9 @@ const Publicacion = ({datosImagen}) => {
           flexDirection: 'column'  // Asegura que el contenido se apile verticalmente
         }}>
           <Typography sx={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-            {datosImagen.descripcion} 
+            {datosImagen.foto.descripcion} 
             {
-              datosImagen.hashtags.map((hg) => (
+              datosImagen.foto.hashtags.map((hg) => (
                 <a href='#' style={{color:"#914DF0"}} key={hg.hashtag.etiqueta}>{' #' + hg.hashtag.etiqueta}</a>
               ))
             }
