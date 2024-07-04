@@ -133,11 +133,14 @@ const Publicacion = ({datosImagen}) => {
       }}
     >
       <Grid sx={{ minHeight: '100%' }}>
-        <Grid>
+        <Grid sx={{display:'flex',justifyContent:'space-between'}}>
           <Typography>
             <Link href='#' sx={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>{datosImagen.usuario.nombreUsuario}</strong>
             </Link>
+          </Typography>
+          <Typography>
+            Les fascina {datosImagen.foto.cantidad}.
           </Typography>
         </Grid>
         <Grid sx={{
@@ -152,7 +155,7 @@ const Publicacion = ({datosImagen}) => {
                 <a href='#' style={{color:"#914DF0"}} key={hg.hashtag.etiqueta}>{' #' + hg.hashtag.etiqueta}</a>
               ))
             }
-            Les gusta {datosImagen.foto.cantidad}.
+            
           </Typography>
         </Grid>
       </Grid>

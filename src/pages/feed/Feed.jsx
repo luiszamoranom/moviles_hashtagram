@@ -32,7 +32,6 @@ const Feed = () => {
 
   useEffect(() => {
     if(userCredentials.usuarioId){
-      console.log("cargó")
       getPhotos();
     }
   }, [userCredentials]);
@@ -100,7 +99,11 @@ const Feed = () => {
             ))
           }
         </>
-        : (
+        : 
+      fotos.length == 0?
+        <></>
+        :
+        (
         <Grid item sx={{minWidth: '100%', maxWidth: '100%',}}>
           <Paper sx={{ width: '100%', overflow: 'hidden', scrollSnapAlign: 'center' }}>
             <PublicacionSkeleton />

@@ -27,7 +27,6 @@ const Profile = () => {
         obtenerUsuario()
         setLoading(false);
     }, [propietario]);
-    console.log(usuario)
 
     return (
         <LayoutWithNavbar>
