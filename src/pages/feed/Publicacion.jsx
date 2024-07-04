@@ -146,12 +146,13 @@ const Publicacion = ({datosImagen}) => {
           flexDirection: 'column'  // Asegura que el contenido se apile verticalmente
         }}>
           <Typography sx={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
-            {datosImagen.foto.descripcion} 
+            {datosImagen.foto.descripcion}
             {
               datosImagen.foto.hashtags.map((hg) => (
                 <a href='#' style={{color:"#914DF0"}} key={hg.hashtag.etiqueta}>{' #' + hg.hashtag.etiqueta}</a>
               ))
             }
+            Les gusta {datosImagen.foto.cantidad}.
           </Typography>
         </Grid>
       </Grid>
