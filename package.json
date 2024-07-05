@@ -24,6 +24,7 @@
     "@fontsource/roboto": "^5.0.13",
     "@mui/icons-material": "^5.15.19",
     "@mui/material": "^5.15.19",
+    "compressorjs": "^1.2.1",
     "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

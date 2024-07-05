@@ -7,6 +7,7 @@ import { NavbarPage } from "../../components/navbar/NavbarPage";
 import { useNavigate } from "react-router-dom";
 import WallpaperOutlinedIcon from '@mui/icons-material/WallpaperOutlined';
 import LayoutWithNavbar from "../LayoutWithNavbar";
+import Compressor from 'compressorjs';
 
 const ViewCamera = () => {
   const navigate = useNavigate();
