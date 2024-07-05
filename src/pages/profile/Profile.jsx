@@ -29,120 +29,120 @@ const Profile = () => {
     }, [propietario]);
 
     return (
-        <LayoutWithNavbar>
-        <NavbarPage id="navbar-page" title={"Perfil"} />
-        <Grid
-            id="contenido-page"
-            container
-            direction="column"
-            alignItems="center"
-            justifyContent="center"
-            sx={{ minHeight: "88vh", maxHeight: "88vh", overflowY: "auto" }}
-        >
+        <Grid>
+            <NavbarPage id="navbar-page" title={"Perfil"} />
             <Grid
-            id="info-usuario"
-            sx={{
-                width: "100%",
-                display: 'flex',
-                paddingX: '1rem'
-            }}
-            >
-                <Grid 
-                    sx={{
-                    minWidth: '35%',
-                    maxWidth: '35%',
-                    height: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minHeight: "14vh",
-                    maxHeight: "14vh"
-                    }}
-                >
-                    {
-                    usuario?.fotoExtension ? (
-                    <Box
-                        component="img"
-                        sx={{
-                        borderRadius: "50%",
-                        width: "90%",
-                        height: "auto",
-                        display: 'block',
-                        objectFit: 'cover',
-                        aspectRatio: '1/1'
-                        }}
-                        alt="Foto capturada"
-                        src={`data:image/${usuario.fotoExtension};base64,${usuario.fotoPerfil}`}
-                    />
-                    ) : (
-                    <Skeleton animation="wave" variant="circular" width={'100%'} height={'100%'} />
-                    )}
-                </Grid>
-                <Grid
-                id='datos-usuario'
+                id="contenido-page"
                 container
                 direction="column"
-                justifyContent="space-between"
+                alignItems="center"
+                justifyContent="center"
+                sx={{ minHeight: "88vh", maxHeight: "88vh", overflowY: "auto" }}
+            >
+                <Grid
+                id="info-usuario"
                 sx={{
-                    minWidth: '65%',
-                    maxWidth: '65%',
-                    paddingY: '1rem',
-                    minHeight: "14vh",
-                    maxHeight: "14vh",
+                    width: "100%",
+                    display: 'flex',
+                    paddingX: '1rem'
                 }}
                 >
-                <Grid item sx={{ flexGrow: 1 }}>
-                    <Grid>
-                    <Typography variant='h6'>
-                        {usuario ? <strong>{usuario?.nombreCompleto}</strong> : <Skeleton variant="text" width={'40%'} sx={{ fontSize: '1rem' }} />}
-                    </Typography>
+                    <Grid 
+                        sx={{
+                        minWidth: '35%',
+                        maxWidth: '35%',
+                        height: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minHeight: "14vh",
+                        maxHeight: "14vh"
+                        }}
+                    >
+                        {
+                        usuario?.fotoExtension ? (
+                        <Box
+                            component="img"
+                            sx={{
+                            borderRadius: "50%",
+                            width: "90%",
+                            height: "auto",
+                            display: 'block',
+                            objectFit: 'cover',
+                            aspectRatio: '1/1'
+                            }}
+                            alt="Foto capturada"
+                            src={`data:image/${usuario.fotoExtension};base64,${usuario.fotoPerfil}`}
+                        />
+                        ) : (
+                        <Skeleton animation="wave" variant="circular" width={'100%'} height={'100%'} />
+                        )}
                     </Grid>
-                    <Grid>
-                    <Typography>
-                        {usuario ? usuario?.nombreUsuario : <Skeleton variant="text" width={'40%'} sx={{ fontSize: '1rem' }} />}
-                    </Typography>
-                    </Grid>
-                </Grid>
-                <Grid item>
-                    {
-                        usuario?.id == userCredentials?.usuarioId?
-                        <Typography>
-                            {usuario ? 
-                            <Link 
-                                component={RouterLink} to="/user/edit-profile" state={userCredentials?.usuarioId}
-                                sx={{ textDecoration: 'none', color: 'blueviolet', gap:1,
-                                    display:'flex',justifyContent:'start',alignItems:'center'}}
-                                >
-                                Editar perfil 
-                                <ModeEditOutlinedIcon fontSize='small'/>
-                            </Link>
-                            : <Skeleton variant="text" width={'40%'} sx={{ fontSize: '1rem' }} />}
+                    <Grid
+                    id='datos-usuario'
+                    container
+                    direction="column"
+                    justifyContent="space-between"
+                    sx={{
+                        minWidth: '65%',
+                        maxWidth: '65%',
+                        paddingY: '1rem',
+                        minHeight: "14vh",
+                        maxHeight: "14vh",
+                    }}
+                    >
+                    <Grid item sx={{ flexGrow: 1 }}>
+                        <Grid>
+                        <Typography variant='h6'>
+                            {usuario ? <strong>{usuario?.nombreCompleto}</strong> : <Skeleton variant="text" width={'40%'} sx={{ fontSize: '1rem' }} />}
                         </Typography>
-                        :
-                        <></>
-                    }
+                        </Grid>
+                        <Grid>
+                        <Typography>
+                            {usuario ? usuario?.nombreUsuario : <Skeleton variant="text" width={'40%'} sx={{ fontSize: '1rem' }} />}
+                        </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid item>
+                        {
+                            usuario?.id == userCredentials?.usuarioId?
+                            <Typography>
+                                {usuario ? 
+                                <Link 
+                                    component={RouterLink} to="/user/profile/edit" state={userCredentials?.usuarioId}
+                                    sx={{ textDecoration: 'none', color: 'blueviolet', gap:1,
+                                        display:'flex',justifyContent:'start',alignItems:'center'}}
+                                    >
+                                    Editar perfil 
+                                    <ModeEditOutlinedIcon fontSize='small'/>
+                                </Link>
+                                : <Skeleton variant="text" width={'40%'} sx={{ fontSize: '1rem' }} />}
+                            </Typography>
+                            :
+                            <></>
+                        }
+                    </Grid>
                 </Grid>
-            </Grid>
-            </Grid>
-            <Grid
-            id="fotos"
-            sx={{
-                minHeight: "74vh",
-                maxHeight: "74vh",
-                width: "100%",
-                display: 'flex',
-                justifyContent: 'center',
-                padding: '1rem',
-                overflowY: 'auto'
-            }}
-            >
-            {usuario ? (
-                <GridImagenPerfil loading={loading} photos={usuario?.fotos} />
-            ) : (
-                <Skeleton variant="rounded" width='100%' height='70vh' />
-            )}
+                </Grid>
+                <Grid
+                id="fotos"
+                sx={{
+                    minHeight: "74vh",
+                    maxHeight: "74vh",
+                    width: "100%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    padding: '1rem',
+                    overflowY: 'auto'
+                }}
+                >
+                {usuario ? (
+                    <GridImagenPerfil loading={loading} photos={usuario?.fotos} />
+                ) : (
+                    <Skeleton variant="rounded" width='100%' height='70vh' />
+                )}
+                </Grid>
             </Grid>
         </Grid>
-        </LayoutWithNavbar>
     );
 };
 

@@ -140,7 +140,7 @@ const EditProfile = () => {
     }
 
     return (
-        <LayoutWithNavbar>
+        <Grid>
             <CustomizeProgress isOpen={loading} handleClose={handleClose} />
             <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
             <NavbarPage id="navbar-page" title={"Editar perfil"} />
@@ -249,7 +249,7 @@ const EditProfile = () => {
                     </Grid>
                 </Grid>
             </Grid>
-        </LayoutWithNavbar>
+        </Grid>
     )
 }
 

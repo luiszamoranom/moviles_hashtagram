@@ -134,8 +134,10 @@ const Publicacion = ({datosImagen}) => {
     >
       <Grid sx={{ minHeight: '100%' }}>
         <Grid sx={{display:'flex',justifyContent:'space-between'}}>
-          <Typography>
-            <Link href='#' sx={{ textDecoration: 'none', color: 'inherit' }}>
+          <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
+            <Link 
+            component={RouterLink} to="/user/profile" state={datosImagen.usuario.id}
+            sx={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>{datosImagen.usuario.nombreUsuario}</strong>
             </Link>
           </Typography>

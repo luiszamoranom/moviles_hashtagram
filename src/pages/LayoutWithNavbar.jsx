@@ -1,11 +1,29 @@
-import { Grid } from '@mui/material'
-import React, { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from '../components/navbar/Navbar'
-import CustomizeProgress from '../components/CustomizeProgress'
-import usuarioStore from '../store/usuarioStore'
+import { Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbar from '../components/navbar/Navbar';
+import { obtenerPublicaciones } from '../services/publicacionService';
+import useUsuarioCache from '../hooks/usuario/useUsuarioCache';
 
-const LayoutWithNavbar = ({ children }) => {
+const LayoutWithNavbar = () => {
+  const [fotos, setFotos] = useState([]);
+  const { userCredentials } = useUsuarioCache();
+
+  const getPhotos = async () => {
+    const usuarioId = userCredentials.usuarioId;
+    const response = await obtenerPublicaciones(usuarioId);
+    if (response.success) {
+      setFotos(response.message);
+    }
+  };
+
+  useEffect(() => {
+    if (userCredentials.usuarioId ) {
+      getPhotos();
+      console.log("Petición inicial hecha");
+    }
+  }, [userCredentials]);
+
   return (
     <Grid
       container
@@ -17,7 +35,7 @@ const LayoutWithNavbar = ({ children }) => {
         item
         sx={{ flex: 1, overflowY: "auto", minHeight: "94dvh", maxHeight: "94dvh" }}
       >
-        {children}
+        <Outlet context={{ fotos }} />
       </Grid>
       <Grid
         id="navbar"
@@ -27,7 +45,7 @@ const LayoutWithNavbar = ({ children }) => {
         <Navbar />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default LayoutWithNavbar
+export default LayoutWithNavbar;

@@ -66,7 +66,7 @@ export const UploadPhoto = () => {
   }
 
   return (
-    <LayoutWithNavbar>
+    <Grid>
       <NavbarPage title={"Subida de publicación"} />
       <CustomizeProgress isOpen={loading} handleClose={handleClose} />
       <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
@@ -154,6 +154,6 @@ export const UploadPhoto = () => {
           </Grid>
         </FormGroup>
       </Grid>
-    </LayoutWithNavbar>
+    </Grid>
   );
 };

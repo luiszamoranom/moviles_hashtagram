@@ -13,7 +13,6 @@ const ViewCamera = () => {
   const navigate = useNavigate();
 
   const [photo, setPhoto] = useState(null);
-  console.log(photo)
   const convertToBase64 = async (url) => {
     return fetch(url)
       .then(response => response.blob())
@@ -67,7 +66,7 @@ const ViewCamera = () => {
   };
 
   return (
-    <LayoutWithNavbar>
+    <Grid>
       {/* esto mide 6vh */}
       <NavbarPage id='navbar-page' title={"Subir foto"} />
       {/* mide 84vh */}
@@ -186,7 +185,7 @@ const ViewCamera = () => {
           </Stack>
         </Grid>
       </Grid>
-    </LayoutWithNavbar>
+    </Grid>
   );
 };
 
