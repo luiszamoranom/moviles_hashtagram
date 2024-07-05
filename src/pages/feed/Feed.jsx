@@ -6,9 +6,10 @@ import PublicacionSkeleton from './PublicacionSkeleton';
 import { NavbarPage } from '../../components/navbar/NavbarPage';
 import ToolbarCustom from '../../components/toolbar/Toolbar';
 import publicacionStore from '../../store/publicacionesStore';
+import { useFotos } from '../LayoutWithNavbar';
 
 const Feed = () => {
-  const { fotos } = useOutletContext();
+  const {fotos} = useFotos()
   const [positions, setPositions] = useState(new Array(fotos.length).fill(0));
   const {getPublicaciones} = publicacionStore()
 
