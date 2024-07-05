@@ -15,6 +15,7 @@ import useUsuarioCache from '../../hooks/usuario/useUsuarioCache'
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
+  const [cantidadLikes,setCantidadLikes] = useState(0)
   const {userCredentials} = useUsuarioCache()
 
   const handleClick = () => {
@@ -36,6 +37,10 @@ const Publicacion = ({datosImagen}) => {
     handleCargarSiDioLike()
   },[userCredentials,datosImagen.foto.id])
 
+  useEffect( () => {
+    setCantidadLikes(datosImagen.foto._count.meGusta)
+  },[])
+
   const handleClickLike = async() => {
     const interactuadorId = userCredentials.usuarioId;
     const fotoId = datosImagen.foto.id
@@ -48,6 +53,7 @@ const Publicacion = ({datosImagen}) => {
         const response = await eliminarMeGusta(interactuadorId,fotoId)
         if(response.success){
           setLike(false)
+          setCantidadLikes(cantidadLikes-1)
         }else{
           console.log("Error al eliminar me gusta")
         }
@@ -57,6 +63,7 @@ const Publicacion = ({datosImagen}) => {
         const response = await registrarMeGusta(interactuadorId,fotoId)
         if(response.success){
           setLike(true)
+          setCantidadLikes(cantidadLikes+1)
         }else{
           console.log("Error al registrar me gusta")
         }
@@ -194,7 +201,7 @@ const Publicacion = ({datosImagen}) => {
             </Link>
           </Typography>
           <Typography>
-            Les fascina {datosImagen.foto._count.meGusta}.
+            Les fascina {cantidadLikes}.
           </Typography>
         </Grid>
         <Grid sx={{
