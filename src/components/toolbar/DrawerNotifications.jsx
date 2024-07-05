@@ -10,8 +10,8 @@ export const DrawerNotifications = ( { toggleDrawer } ) => {
       role="presentation"
     >
       <Grid container direction="row" justifyContent="center" minHeight="6vh" alignItems="center">
-        <IconButton sx={{ pl: 3 }}>
-          <ArrowBackIcon fontSize="medium" color="colorNegro" onClick={ () => toggleDrawer(false) } />
+        <IconButton sx={{ pl: 3 }} onClick={ () => toggleDrawer(false) } >
+          <ArrowBackIcon fontSize="medium" color="colorNegro" />
         </IconButton>
         <Typography
             variant="h6"
