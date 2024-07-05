@@ -1,15 +1,17 @@
 import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { Button, Drawer, Grid, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CustomNotification from "./Notification";
 import useUsuarioCache from '../../hooks/usuario/useUsuarioCache'
 import {
+  getMeGustasNoVistos,
   meGustasQueMeHanDado
 } from '../../services/meGustaService'
 import { NavbarProvider, useNavbar } from "../../context/Navbar";
 import { DrawerNotifications } from './DrawerNotifications';
 import { useFotos } from "../../pages/LayoutWithNavbar";
+import usuarioStore from '../../store/usuarioStore';
 
 const ToolbarCustom = () => {
 
@@ -17,6 +19,8 @@ const ToolbarCustom = () => {
   const { getPhotos } = useFotos()
   const [openNotifications, setOpenNotifications] = useState(false);
   const [cantidadNotificaciones,setcantidadNotificaciones] = useState(0)
+  
+  const [ cantidadMeGustas, setCantidadMeGustas ] = useState(0);
   const {userCredentials} = useUsuarioCache()
   const {ws} = useNavbar()
 
@@ -26,9 +30,28 @@ const ToolbarCustom = () => {
       const response = await meGustasQueMeHanDado(usuarioId)
     if(response.success){
       setcantidadNotificaciones(response.message.cantidadMeGusta)
+
     }
     }
   }
+
+  const getCredentialsUser = async () => {
+    const user = await usuarioStore().getUser();
+    return user.usuarioId;
+  };
+
+  const getCantidadNotificaciones = useCallback(async () => {
+    const id = await getCredentialsUser();
+    const response = await getMeGustasNoVistos(id);
+
+    if ( response.success ) {
+      setCantidadMeGustas(response.data.cantidadMeGusta);
+    }
+  }, []);
+
+  useEffect(() => {
+    getCantidadNotificaciones();
+  }, [getCantidadNotificaciones])
 
   useEffect(() => {
     if(userCredentials?.usuarioId){
@@ -69,7 +92,7 @@ const ToolbarCustom = () => {
         }}
       >
         <Grid id='notificaciones' sx={{paddingX:'1.25rem',paddingY:'0.1rem',display:'flex',justifyContent:'center'}}>
-          <CustomNotification openNotifications={ handleToggleNotifications } />
+          <CustomNotification cantidad={cantidadMeGustas} openNotifications={ handleToggleNotifications } />
         </Grid>
 
         <Drawer
@@ -77,7 +100,7 @@ const ToolbarCustom = () => {
           open={openNotifications}
           onClose={() => handleToggleNotifications(false)}  
         >
-        <DrawerNotifications toggleDrawer={ handleToggleNotifications } />
+        <DrawerNotifications handleObtenerCantidadNotificaciones={getCantidadNotificaciones} toggleDrawer={ handleToggleNotifications } />
         </Drawer>
         <button id='logo' style={{border:'0',backgroundColor:'transparent'}}
         onClick={getPhotos}>

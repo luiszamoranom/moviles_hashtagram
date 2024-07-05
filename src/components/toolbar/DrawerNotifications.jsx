@@ -9,7 +9,7 @@ import {
 import usuarioStore from "../../store/usuarioStore";
 import { NotificationSkeleton } from "./NotificationSkeleton";
 
-export const DrawerNotifications = ({ toggleDrawer }) => {
+export const DrawerNotifications = ({ toggleDrawer, handleObtenerCantidadNotificaciones }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [notificaciones, setNotificaciones] = useState([]);
 
@@ -27,8 +27,9 @@ export const DrawerNotifications = ({ toggleDrawer }) => {
     } else {
       setNotificaciones([]);
     }
+    handleObtenerCantidadNotificaciones();
     setIsLoading(false);
-  }, []);
+  }, [handleObtenerCantidadNotificaciones]);
 
   const handleOcultarNotificacion = async (id) => {
     setIsLoading(true);

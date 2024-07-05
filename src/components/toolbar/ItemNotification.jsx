@@ -12,10 +12,11 @@ export const ItemNotification = ({photo, username, id, handleOcultarNotificacion
       <Box
         component="img"
         sx={{
-          maxWidth: "2.5rem",
+          // maxWidth: "2.5rem",
           maxHeight: "2.5rem",
           objectFit: "contain"
         }}
+        maxWidth="20%"
         alt={username}
         src={photo}
       />
@@ -33,7 +34,7 @@ export const ItemNotification = ({photo, username, id, handleOcultarNotificacion
       </Typography>
 
       {/* Botón para eliminar notificación */}
-      <IconButton onClick={() => handleOcultarNotificacion(id)}>
+      <IconButton onClick={() => handleOcultarNotificacion(id)} sx={{ maxWidth: "10%" }}>
         <ClearIcon color="colorNegro" />
       </IconButton>
 
