@@ -5,6 +5,7 @@ import Navbar from '../components/navbar/Navbar';
 import { obtenerPublicaciones } from '../services/publicacionService';
 import useUsuarioCache from '../hooks/usuario/useUsuarioCache';
 import publicacionStore from '../store/publicacionesStore';
+import meGustaStore from '../store/meGustaStore';
 
 // Crear el contexto
 const FotosContext = createContext();
@@ -18,7 +19,7 @@ const LayoutWithNavbar = () => {
   const [loading, setLoading] = useState(true);
   const { userCredentials } = useUsuarioCache();
   const { getPublicaciones, setPublicacion } = publicacionStore();
-
+  
   const getPhotos = async () => {
     const usuarioId = userCredentials.usuarioId;
     const response = await obtenerPublicaciones(usuarioId);
@@ -26,7 +27,7 @@ const LayoutWithNavbar = () => {
       const newFotos = response.message;
       // Save new photos to local storage
       for (let i = 0; i < newFotos.length; i++) {
-        await setPublicacion(newFotos[i].id, newFotos[i]);
+        await setPublicacion(newFotos[i].foto.id, newFotos[i]);
       }
       // Combine local storage photos with new photos
       const storedFotos = await getPublicaciones();

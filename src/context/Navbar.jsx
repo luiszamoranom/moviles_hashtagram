@@ -38,8 +38,37 @@ export const NavbarProvider = ({ children }) => {
         setValuePage(1);  // Opción para reiniciar el valorPage al estado predeterminado
     };
 
+    // -------------- LOGICA DEL WEBSOCKET ---
+
+    const [ws, setWs] = useState(null);
+
+    useEffect(() => {
+        const newWs = new WebSocket('ws://34.41.29.202:4444');
+
+        newWs.onopen = () => {
+            console.log('Conexión WebSocket establecida');
+            setWs(newWs);
+        };
+
+        newWs.onerror = (error) => {
+            console.error('Error en la conexión WebSocket:', error);
+        };
+
+        return () => {
+            newWs.close();
+        };
+    }, []);
+
+    // Proporciona tanto la lógica de Navbar como el WebSocket
     return (
-        <NavbarContext.Provider value={{ setPage, getPage, removePage, valuePage, loading }}>
+        <NavbarContext.Provider value={{ 
+            setPage, 
+            getPage, 
+            removePage, 
+            valuePage, 
+            loading,
+            ws // Agrega ws al contexto
+        }}>
             {children}
         </NavbarContext.Provider>
     );
