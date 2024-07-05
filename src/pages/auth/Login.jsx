@@ -45,7 +45,7 @@ export const Login = () => {
                 fontFamily: "Lobster",
                 height: "auto",
                 px: 1.5,
-                letterSpacing: "4px",
+                letterSpacing: "2px",
               }}
             >
               Hashtagram

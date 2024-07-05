@@ -13,7 +13,6 @@ function AppRouter() {
       <Route path="/register" element={<Register />} />
 
       <Route path="/user/*" element={ <UserRoutes />} />
-      {/* <Route path="/vista2" element={ <Vista2 /> } /> */}
 
       <Route path="/*" element={<Navigate to="/login" />} />
     </Routes>

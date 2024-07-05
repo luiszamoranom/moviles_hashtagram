@@ -39,8 +39,8 @@ export const Search = () => {
   };
 
   return (
-    <LayoutWithNavbar>
-      <Grid
+    <Grid>
+       <Grid
         id="contenido-page"
         container
         direction="column"
@@ -108,6 +108,6 @@ export const Search = () => {
           )}
         </Grid>
       </Grid>
-    </LayoutWithNavbar>
+    </Grid>
   );
 };

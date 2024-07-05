@@ -17,7 +17,7 @@ import LayoutWithNavbar from "../LayoutWithNavbar";
 
 export const UploadPhoto = () => {
   const location = useLocation();
-  const {getPosition} = useGeolocation();
+  const {position,error,getPosition} = useGeolocation();
   const photo = location.state.photo;
   const {loading,setLoading,handleClose} = useCustomProgress()
   const [isCapture,setIsCapture] = useState(false);
@@ -36,13 +36,29 @@ export const UploadPhoto = () => {
   });
   const capturaPosition = async () => {
     setLoading(true);
-    //capturo latitud,longitud
-    const obtenerCoordenadas = await getPosition()
-    const ciudad = await getCity(obtenerCoordenadas.coords.latitude,obtenerCoordenadas.coords.longitude)
-    setValue("geolocation",ciudad)
-    setIsCapture(true)
-    setLoading(false);
-  }
+    try {
+      // Solicitar permisos y obtener las coordenadas
+      await getPosition();
+      if (error) {
+        throw new Error(error);
+      }
+      // Si se obtienen las coordenadas correctamente
+      if (position) {
+        const ciudad = await getCity(position.coords.latitude, position.coords.longitude);
+        setValue("geolocation", ciudad);
+        setIsCapture(true);
+      }
+    } catch (err) {
+      console.error('Error obteniendo la posición:', err);
+      setMsgAlert('Asegurarse que el GPS está encendido o vuelva atrás para intentar nuevamente', err)
+      setSeverityAlert('warning')
+      setIsOpenAlert(true)
+      // Manejo de errores, por ejemplo:
+      // Mostrar mensaje de error al usuario, o intentar obtener la posición nuevamente
+    } finally {
+      setLoading(false);
+    }
+  };
   const onSubmit = async (data) => {
     setLoading(true)
     let separados = data.hashtags.split(" ")
@@ -64,11 +80,11 @@ export const UploadPhoto = () => {
   }
 
   return (
-    <LayoutWithNavbar>
+    <Grid>
       <NavbarPage title={"Subida de publicación"} />
       <CustomizeProgress isOpen={loading} handleClose={handleClose} />
       <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
-      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: "88vh", overflowY: 'auto'}}>
+      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: "88vh", overflowY: 'scroll'}}>
         <Grid
           container
           justifyContent="start"
@@ -80,7 +96,8 @@ export const UploadPhoto = () => {
             display: 'flex',
             justifyContent: 'center',
             width: "90dvw",
-            minHeight: "54vh",
+            height: "53vh",
+            maxHeight: '53vh',
           }}
         >
           <Box
@@ -98,9 +115,9 @@ export const UploadPhoto = () => {
           />
         </Grid>
         <FormGroup>
-          <Grid container gap={1} sx={{ width: "90dvw", minHeight: "34vh" }}>
+          <Grid container gap={1} sx={{ width: "90dvw", height: "35vh", maxHeight: "35vh" }}>
             <Grid container sx={{marginTop:'1rem'}}>
-              <Box sx={{ width: '100%', minHeight: '4.5rem', maxHeight: '4.5rem' }} >
+              <Box sx={{ width: '100%'}} >
                 <TextField type='text' fullWidth id='description' inputProps={{ maxLength: 50 }}
                   {...publicacion('description', {
                     required: true,
@@ -113,7 +130,7 @@ export const UploadPhoto = () => {
                   helperText={errors.description ? 'Este campo es requerido' : ''}
                 />
               </Box>
-              <Box sx={{ width: '100%', minHeight: '4.5rem' }} >
+              <Box sx={{ width: '100%'}} >
                 <TextField type='text' fullWidth id='hashtags'
                   {...publicacion('hashtags', {
                     required: false,
@@ -123,7 +140,7 @@ export const UploadPhoto = () => {
                   helperText={errors.hashtags ? errors.hashtags.message : ''}
                 />
               </Box>
-              <Box sx={{ width: '100%', minHeight: '4.5rem', maxHeight: '4.5rem' }}>
+              <Box sx={{ width: '100%'}}>
                 <Button onClick={capturaPosition} variant="outlined" fullWidth size="medium"
                   endIcon={<PinDropOutlinedIcon />} sx={{ justifyContent: "space-between" }}>
                   <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>{watch("geolocation")}</Typography>
@@ -151,6 +168,6 @@ export const UploadPhoto = () => {
           </Grid>
         </FormGroup>
       </Grid>
-    </LayoutWithNavbar>
+    </Grid>
   );
 };
