@@ -95,7 +95,7 @@ export const Register = () => {
                     fontFamily: 'Lobster',
                     height: 'auto',
                     px: 1.5,
-                    letterSpacing: '4px',
+                    letterSpacing: "2px",
                   } }
                 >Hashtagram</Typography>
             </Grid>
