@@ -1,5 +1,5 @@
 import { Box, Button, Grid, Link, Skeleton, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import { Link as RouterLink } from 'react-router-dom';
@@ -8,7 +8,8 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
   registrarMeGusta,
-  eliminarMeGusta
+  eliminarMeGusta,
+  saberSiUsuarioDioMeGustaAFoto
 } from '../../services/meGustaService'
 import useUsuarioCache from '../../hooks/usuario/useUsuarioCache'
 
@@ -20,7 +21,22 @@ const Publicacion = ({datosImagen}) => {
     console.log("Presionaste para no ver más")
   }
 
-  const handleClickLike = () => {
+  const handleCargarSiDioLike = async () => {
+    /*
+    const response = await saberSiUsuarioDioMeGustaAFoto(userCredentials.usuarioId,datosImagen.foto.id)
+    if(response.success){
+      setLike(true)
+    }else{
+      setLike(false)
+    }
+      */
+  }
+
+  useEffect( () => {
+    handleCargarSiDioLike()
+  },[userCredentials,datosImagen.foto.id])
+
+  const handleClickLike = async() => {
     const interactuadorId = userCredentials.usuarioId;
     const fotoId = datosImagen.foto.id
     console.log("interactuadorId: "+interactuadorId)
@@ -28,11 +44,22 @@ const Publicacion = ({datosImagen}) => {
     if(interactuadorId && fotoId){
       if(like){
         console.log("debería pasar a no me gusta")
-        setLike(false)
+        console.log("debería pasar a me gusta")
+        const response = await eliminarMeGusta(interactuadorId,fotoId)
+        if(response.success){
+          setLike(false)
+        }else{
+          console.log("Error al eliminar me gusta")
+        }
         
       }else{
         console.log("debería pasar a me gusta")
-        setLike(true)
+        const response = await registrarMeGusta(interactuadorId,fotoId)
+        if(response.success){
+          setLike(true)
+        }else{
+          console.log("Error al registrar me gusta")
+        }
       }
     }else{
       console.log("interactuador (usuario de la sesión) no definido");
@@ -45,7 +72,7 @@ const Publicacion = ({datosImagen}) => {
       gap={0.2} sx={{minHeight:"5dvh",maxHeight:"5dvh",width:"100%",backgroundColor:"white",display:'flex',paddingX:'0.5rem',paddingY:'0.25rem'}}>
         <Grid sx={{width:'8%',maxWidth:'8%'}} >
           {
-            datosImagen.usuario.fotoExtension?
+            datosImagen.foto.propietario.fotoExtension?
             <>
               <Box
                 component="img"
@@ -59,7 +86,7 @@ const Publicacion = ({datosImagen}) => {
                 }}
                 alt="Foto capturada"
                 loading='lazy'
-                src={`data:image/${datosImagen.usuario.fotoExtension};base64,${datosImagen.usuario.fotoPerfil}`}
+                src={`data:image/${datosImagen.foto.propietario.fotoExtension};base64,${datosImagen.foto.propietario.fotoPerfil}`}
               />
             </>
             :
@@ -72,9 +99,9 @@ const Publicacion = ({datosImagen}) => {
         <Grid sx={{width:'30%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
-            component={RouterLink} to="/user/profile" state={datosImagen.usuario.id}
+            component={RouterLink} to="/user/profile" state={datosImagen.foto.propietario.id}
             sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <strong>{datosImagen.usuario.nombreUsuario}</strong>
+              <strong>{datosImagen.foto.propietario.nombreUsuario}</strong>
             </Link>
           </Typography>
         </Grid>
@@ -161,9 +188,9 @@ const Publicacion = ({datosImagen}) => {
         <Grid sx={{display:'flex',justifyContent:'space-between'}}>
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
-            component={RouterLink} to="/user/profile" state={datosImagen.usuario.id}
+            component={RouterLink} to="/user/profile" state={datosImagen.foto.propietario.id}
             sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <strong>{datosImagen.usuario.nombreUsuario}</strong>
+              <strong>{datosImagen.foto.propietario.nombreUsuario}</strong>
             </Link>
           </Typography>
           <Typography>
