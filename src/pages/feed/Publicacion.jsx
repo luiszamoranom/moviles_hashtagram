@@ -12,11 +12,13 @@ import {
   saberSiUsuarioDioMeGustaAFoto
 } from '../../services/meGustaService'
 import useUsuarioCache from '../../hooks/usuario/useUsuarioCache'
+import publicacionStore from '../../store/publicacionesStore';
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
   const [cantidadLikes,setCantidadLikes] = useState(0)
   const {userCredentials} = useUsuarioCache()
+  const { getPublicacion,setPublicacion,getPublicaciones } = publicacionStore()
 
   const handleClick = () => {
     console.log("Presionaste para no ver más")
@@ -34,10 +36,10 @@ const Publicacion = ({datosImagen}) => {
   }
 
   useEffect( () => {
-    if(datosImagen && userCredentials){
+    if(userCredentials){
       handleCargarSiDioLike()
     }
-  },[userCredentials && datosImagen])
+  },[userCredentials])
 
   useEffect( () => {
     setCantidadLikes(datosImagen.foto._count.meGusta)
@@ -46,14 +48,13 @@ const Publicacion = ({datosImagen}) => {
   const handleClickLike = async() => {
     const interactuadorId = userCredentials.usuarioId;
     const fotoId = datosImagen.foto.id
-    console.log("interactuadorId: "+interactuadorId)
-    console.log("fotoId: "+fotoId)
     if(interactuadorId && fotoId){
       if(like){
-        console.log("debería pasar a no me gusta")
-        console.log("debería pasar a me gusta")
         const response = await eliminarMeGusta(interactuadorId,fotoId)
         if(response.success){
+          let publi = await getPublicacion(fotoId)
+          publi.foto._count.meGusta = publi.foto._count.meGusta-1
+          setPublicacion(fotoId,publi)
           setLike(false)
           setCantidadLikes(cantidadLikes-1)
         }else{
@@ -61,9 +62,11 @@ const Publicacion = ({datosImagen}) => {
         }
         
       }else{
-        console.log("debería pasar a me gusta")
         const response = await registrarMeGusta(interactuadorId,fotoId)
         if(response.success){
+          let publi = await getPublicacion(fotoId)
+          publi.foto._count.meGusta = publi.foto._count.meGusta+1
+          setPublicacion(fotoId,publi)
           setLike(true)
           setCantidadLikes(cantidadLikes+1)
         }else{
@@ -81,7 +84,7 @@ const Publicacion = ({datosImagen}) => {
       gap={0.2} sx={{minHeight:"5dvh",maxHeight:"5dvh",width:"100%",backgroundColor:"white",display:'flex',paddingX:'0.5rem',paddingY:'0.25rem'}}>
         <Grid sx={{width:'8%',maxWidth:'8%'}} >
           {
-            datosImagen.foto.propietario.fotoExtension?
+            datosImagen?.foto.propietario.fotoExtension?
             <>
               <Box
                 component="img"
@@ -95,7 +98,7 @@ const Publicacion = ({datosImagen}) => {
                 }}
                 alt="Foto capturada"
                 loading='lazy'
-                src={`data:image/${datosImagen.foto.propietario.fotoExtension};base64,${datosImagen.foto.propietario.fotoPerfil}`}
+                src={`data:image/${datosImagen?.foto.propietario.fotoExtension};base64,${datosImagen?.foto.propietario.fotoPerfil}`}
               />
             </>
             :
@@ -108,16 +111,16 @@ const Publicacion = ({datosImagen}) => {
         <Grid sx={{width:'30%',maxWidth:'40%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <Typography overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>
             <Link 
-            component={RouterLink} to="/user/profile" state={datosImagen.foto.propietario.id}
+            component={RouterLink} to="/user/profile" state={datosImagen?.foto.propietario.id}
             sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <strong>{datosImagen.foto.propietario.nombreUsuario}</strong>
+              <strong>{datosImagen?.foto.propietario.nombreUsuario}</strong>
             </Link>
           </Typography>
         </Grid>
         <Grid sx={{width:'32%',maxWidth:'42%',justifyContent:'start', alignItems: 'center' , display:'flex', paddingLeft:'0.25rem'}} >
           <LocationOnOutlinedIcon  fontSize='medium' />
           <Typography overflow='hidden' variant='caption' textOverflow='ellipsis' whiteSpace='nowrap'>
-              {datosImagen.foto.ubicacion}
+              {datosImagen?.foto.ubicacion}
           </Typography>
         </Grid>
         <Grid sx={{width:'15%',maxWidth:'15%',justifyContent:'center', alignItems: 'center', display:'flex'}} >

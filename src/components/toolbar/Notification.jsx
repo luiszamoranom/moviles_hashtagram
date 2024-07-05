@@ -28,7 +28,7 @@ const CustomNotification = ({ openNotifications }) => {
   }, [])
 
   return (
-    <Badge badgeContent={notifications} color="primary" >
+    <Badge badgeContent={cantidadNotificaciones} color="primary" >
       <NotificationsRoundedIcon 
         color="primary" 
         fontSize="medium"

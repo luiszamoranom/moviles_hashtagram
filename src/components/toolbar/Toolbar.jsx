@@ -25,13 +25,13 @@ const ToolbarCustom = () => {
       const usuarioId = userCredentials.usuarioId
       const response = await meGustasQueMeHanDado(usuarioId)
     if(response.success){
-      setcantidadNotificaciones(response.data.cantidadMeGusta)
+      setcantidadNotificaciones(response.message.cantidadMeGusta)
     }
     }
   }
 
   useEffect(() => {
-    if(userCredentials.usuarioId){
+    if(userCredentials?.usuarioId){
       handleCargarNotificaciones()
     }
   }, [userCredentials]);
