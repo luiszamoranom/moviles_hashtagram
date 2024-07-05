@@ -24,6 +24,8 @@ export const DrawerNotifications = ({ toggleDrawer }) => {
 
     if (response.success) {
       setNotificaciones(response.data);
+    } else {
+      setNotificaciones([]);
     }
     setIsLoading(false);
   }, []);
@@ -105,7 +107,18 @@ export const DrawerNotifications = ({ toggleDrawer }) => {
         {isLoading &&
           Array.from({ length: 8 }, (_, index) => (
             <NotificationSkeleton key={index} />
-          ))}
+          ))
+        }
+        { !isLoading && notificaciones.length === 0 && (
+          <Typography
+            variant="body1"
+            fontSize="1.3rem"
+            component="p"
+            textAlign="center"
+          >
+            No tienes nuevas notificaciones
+          </Typography>
+        ) }
       </Grid>
     </Box>
   );
