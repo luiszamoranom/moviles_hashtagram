@@ -6,12 +6,37 @@ import { Link as RouterLink } from 'react-router-dom';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import {
+  registrarMeGusta,
+  eliminarMeGusta
+} from '../../services/meGustaService'
+import useUsuarioCache from '../../hooks/usuario/useUsuarioCache'
 
 const Publicacion = ({datosImagen}) => {
   const [like,setLike] = useState(false)
+  const {userCredentials} = useUsuarioCache()
 
   const handleClick = () => {
     console.log("Presionaste para no ver más")
+  }
+
+  const handleClickLike = () => {
+    const interactuadorId = userCredentials.usuarioId;
+    const fotoId = datosImagen.foto.id
+    console.log("interactuadorId: "+interactuadorId)
+    console.log("fotoId: "+fotoId)
+    if(interactuadorId && fotoId){
+      if(like){
+        console.log("debería pasar a no me gusta")
+        setLike(false)
+        
+      }else{
+        console.log("debería pasar a me gusta")
+        setLike(true)
+      }
+    }else{
+      console.log("interactuador (usuario de la sesión) no definido");
+    }
   }
 
   return (
@@ -60,7 +85,7 @@ const Publicacion = ({datosImagen}) => {
           </Typography>
         </Grid>
         <Grid sx={{width:'15%',maxWidth:'15%',justifyContent:'center', alignItems: 'center', display:'flex'}} >
-          <Button onClick={()=>setLike(true)} sx={{padding:0,margin:0,minWidth:'10%'}}>
+          <Button onClick={handleClickLike} sx={{padding:0,margin:0,minWidth:'10%'}}>
             {
               like?
               <>
