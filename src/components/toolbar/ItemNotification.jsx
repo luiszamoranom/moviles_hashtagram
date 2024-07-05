@@ -5,7 +5,7 @@ import {
   Typography
 } from "@mui/material";
 
-export const ItemNotification = ({photo, username}) => {
+export const ItemNotification = ({photo, username, id, handleOcultarNotificacion}) => {
   return (
     <>
       {/* Imagen */}
@@ -33,7 +33,7 @@ export const ItemNotification = ({photo, username}) => {
       </Typography>
 
       {/* Botón para eliminar notificación */}
-      <IconButton>
+      <IconButton onClick={() => handleOcultarNotificacion(id)}>
         <ClearIcon color="colorNegro" />
       </IconButton>
 

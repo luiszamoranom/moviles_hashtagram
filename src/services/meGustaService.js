@@ -17,10 +17,10 @@ export const getMeGustasNoVistos = async (id_usuario) => {
   }
 }
 
-export const ocultarMeGusta = async (id_usuario) => {
+export const ocultarMeGusta = async (id_me_gusta) => {
   try {
-    const response = await axios.patch(`${API_URL}/me-gusta/ocultar-me-gusta/${id_usuario}`);
-
+    const response = await axios.patch(`${API_URL}/me-gusta/ocultar-me-gusta/${id_me_gusta}`);
+    console.log(response)
     if ( response.status === 200) {
       return {success: true, message: response.data};
     }
