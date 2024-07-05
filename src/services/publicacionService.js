@@ -2,8 +2,41 @@ import axios from "axios"
 
 const API_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
+async function comprimirImagen(base64Image, opcionesCompresion = { quality: 0.2 }) {
+  return new Promise((resolve, reject) => {
+    try {
+      // Crea una imagen temporal para Compressor.js
+      const img = document.createElement('img');
+      img.src = base64Image;
+
+      img.onload = () => {
+        new Compressor(img, {
+          ...opcionesCompresion, // Pasa las opciones de compresión
+          success(result) {
+            const reader = new FileReader();
+            reader.readAsDataURL(result);
+            reader.onloadend = () => {
+              resolve(reader.result); // Retorna el Base64 comprimido
+            };
+          },
+          error(err) {
+            reject(new Error(`Error al comprimir la imagen: ${err.message}`));
+          },
+        });
+      };
+
+      img.onerror = (err) => {
+        reject(new Error(`Error al cargar la imagen: ${err}`));
+      };
+    } catch (error) {
+      reject(new Error(`Error al comprimir la imagen: ${error.message}`));
+    }
+  });
+}
+
 export const subirPublicacion = async (propietario,descripcion,ubicacion,base64,hashtags) => {
   try {
+    const base64comprimido = comprimirImagen(base64)
     const response = await axios.post(`${API_URL}/foto/subir`, {
       propietarioId:propietario,descripcion,ubicacion,base64,hashtags
     })
