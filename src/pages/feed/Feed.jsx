@@ -5,10 +5,12 @@ import Publicacion from './Publicacion';
 import PublicacionSkeleton from './PublicacionSkeleton';
 import { NavbarPage } from '../../components/navbar/NavbarPage';
 import ToolbarCustom from '../../components/toolbar/Toolbar';
+import publicacionStore from '../../store/publicacionesStore';
 
 const Feed = () => {
   const { fotos } = useOutletContext();
   const [positions, setPositions] = useState(new Array(fotos.length).fill(0));
+  const {getPublicaciones} = publicacionStore()
 
   const [touchStartCoords, setTouchStartCoords] = useState(null);
   const [touchEndCoords, setTouchEndCoords] = useState(null);
