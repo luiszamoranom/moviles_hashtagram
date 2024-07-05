@@ -19,7 +19,6 @@ const CustomNotification = ({ openNotifications }) => {
       const response = await getMeGustasNoVistos(id);
   
       if ( response.success ) {
-        console.log(response.data)
         setCantidadNotificaciones(response.data.cantidadMeGusta);
       }
     };
