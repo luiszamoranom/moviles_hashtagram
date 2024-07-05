@@ -33,22 +33,24 @@ export const eliminarMeGusta = async (in_interactuadorId, in_fotoId) => {
     }
   }
 
-  export const saberSiUsuarioDioMeGustaAFoto = async (in_interactuadorId, in_fotoId) => {
-    try {
-      const response = await axios.get(`${API_URL}/me-gusta/saber-si-usuario-dio-like-a-una-foto`, {
-        interactuadorId: in_interactuadorId,
-        fotoId: in_fotoId
-      })
-      if ( response.status === 200 ) {
-        return {success: true, message: response.data};
-      } else {
-        return {success: false, status: response.status};
-      }
-  
-    } catch (error) {
-      return {success: false, status: error.response.status};
-    }
-  }
+export const saberSiUsuarioDioMeGustaAFoto = async (in_interactuadorId, in_fotoId) => {
+    if(in_interactuadorId && in_fotoId){
+        try {
+
+            const response = await axios.get(`${API_URL}/me-gusta/saber-si-usuario-dio-like-a-una-foto?interactuadorId=${in_interactuadorId}&fotoId=${in_fotoId}`)
+            if ( response.status === 200 ) {
+                return {success: true, message: response.data};
+            } else {
+                return {success: false, status: response.status};
+            }
+        
+            } catch (error) {
+            return {success: false, status: error.response.status};
+            }
+        }
+    console.log("no funciona")
+    return {success: false, message: "no funciona"};
+}
 
   export const meGustasQueMeHanDado = async (usuarioId) => {
     try {

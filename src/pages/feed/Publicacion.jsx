@@ -23,19 +23,21 @@ const Publicacion = ({datosImagen}) => {
   }
 
   const handleCargarSiDioLike = async () => {
-    /*
-    const response = await saberSiUsuarioDioMeGustaAFoto(userCredentials.usuarioId,datosImagen.foto.id)
+    const interactuadorId = userCredentials.usuarioId
+    const fotoId = datosImagen.foto.id
+    const response = await saberSiUsuarioDioMeGustaAFoto(interactuadorId,fotoId)
     if(response.success){
       setLike(true)
     }else{
       setLike(false)
     }
-      */
   }
 
   useEffect( () => {
-    handleCargarSiDioLike()
-  },[userCredentials,datosImagen.foto.id])
+    if(datosImagen && userCredentials){
+      handleCargarSiDioLike()
+    }
+  },[userCredentials && datosImagen])
 
   useEffect( () => {
     setCantidadLikes(datosImagen.foto._count.meGusta)
