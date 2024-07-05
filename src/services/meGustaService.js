@@ -13,7 +13,7 @@ export const getMeGustasNoVistos = async (id_usuario) => {
 
     return { success: false};
   } catch (error) {
-    return error;
+    return { success: false};
   }
 }
 
@@ -27,6 +27,20 @@ export const ocultarMeGusta = async (id_usuario) => {
 
     return { success: false }
   } catch (error) {
-    return error;
+    return { success: false };
   }
 }
+
+export const getMeGustasObtenidos = async (id_usuario) => {
+  try {
+    const response = await axios.get(`${API_URL}/me-gusta/me-gusta-que-me-han-dado/${id_usuario}`);
+
+    if ( response.status === 200 ) {
+      return { success: true, data: response.data };
+    }
+
+    return { success: false }
+  } catch (error) {
+    return { success: false }
+  }
+};

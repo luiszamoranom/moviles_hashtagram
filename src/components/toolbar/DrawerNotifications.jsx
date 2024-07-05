@@ -1,9 +1,33 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { ItemNotification } from './ItemNotification';
-import { Fragment } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
+import { getMeGustasObtenidos } from '../../services/meGustaService';
+import usuarioStore from '../../store/usuarioStore';
 
 export const DrawerNotifications = ( { toggleDrawer } ) => {
+
+  const [notificaciones, setNotificaciones] = useState([]);
+
+  const getCredentialsUser = async () => {
+    const user = await usuarioStore().getUser();
+    return user.usuarioId;
+  };
+
+  const getNotificaciones = useCallback(async () => {
+    const id = await getCredentialsUser();
+    const response = await getMeGustasObtenidos(id);
+
+    if ( response.success) {
+      console.log(response.data)
+      setNotificaciones(response.data);
+    }
+  }, []);
+
+  useEffect(() => {
+    getNotificaciones();
+  }, [getNotificaciones]);
+
   return (
     <Box
       sx={{ width: 'auto', height: '100vh', background: 'white'}}
@@ -31,7 +55,7 @@ export const DrawerNotifications = ( { toggleDrawer } ) => {
         py="2rem" 
         justifyContent="center"
       >
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        {notificaciones.map((notificacion, index) => (
           <Fragment key={index}> 
             <Grid 
               container 
@@ -40,7 +64,10 @@ export const DrawerNotifications = ( { toggleDrawer } ) => {
               gap={2}
               alignItems="center"
             >
-              <ItemNotification textNotification={text} />
+              <ItemNotification
+                username={notificacion.interactuador.nombreUsuario} 
+                photo={notificacion.foto.base64}   
+              />
                 
             </Grid>
             {/* Divider */}

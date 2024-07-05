@@ -5,9 +5,7 @@ import {
   Typography
 } from "@mui/material";
 
-import ImagenFlaitiano from '../../assets/huevitorey.jpg';
-
-export const ItemNotification = ({photo = ImagenFlaitiano, textNotification, username = "flaitiano"}) => {
+export const ItemNotification = ({photo, username}) => {
   return (
     <>
       {/* Imagen */}
@@ -30,7 +28,7 @@ export const ItemNotification = ({photo = ImagenFlaitiano, textNotification, use
         fontSize="1rem"
         maxWidth="70%"
       >
-        <strong>Huevito rey </strong>
+        <strong>{username} </strong>
         le ha dado like a tu publicación
       </Typography>
 
