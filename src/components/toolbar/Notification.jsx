@@ -1,15 +1,16 @@
-import { Button } from '@mui/material'
-import React from 'react'
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import { Badge } from "@mui/material";
 
-const CustomNotification = () => {
+const CustomNotification = ({ notifications = 0, openNotifications }) => {
   return (
-    <>
-        <Button>
-            <NotificationsRoundedIcon fontSize='medium' />
-        </Button>
-    </>
-  )
-}
+    <Badge badgeContent={notifications} color="primary" sx={{ ml: 2 }}>
+      <NotificationsRoundedIcon 
+        color="primary" 
+        fontSize="medium"
+        onClick={() => openNotifications(true)}
+      />
+    </Badge>
+  );
+};
 
-export default CustomNotification
+export default CustomNotification;

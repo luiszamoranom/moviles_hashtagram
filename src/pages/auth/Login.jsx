@@ -29,13 +29,10 @@ export const Login = () => {
       >
         <Grid
           container
-          direction="column"
-          my="auto"
+          mt="10rem"
           justifyContent="center"
-          alignItems="center"
           width={"90%"}
           gap={4}
-          py={4}
         >
           <Grid>
             <Typography

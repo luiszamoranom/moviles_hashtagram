@@ -32,7 +32,7 @@ export const NavbarPage = ({ title }) => {
   }
 
   return (
-    <Box sx={{ height: "6vh" }}>
+    <Box sx={{ minHeight: "6vh" }}>
       <AppBar position="static" sx={{ bgcolor: "white", boxShadow: 0 }}>
         <Toolbar>
           <IconButton
