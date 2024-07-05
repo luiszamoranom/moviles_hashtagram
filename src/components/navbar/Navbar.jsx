@@ -14,18 +14,14 @@ const Navbar = () => {
 
   useEffect(() => {
     // Sync the state with the current path
-    switch (location.pathname) {
-      case '/user/search':
-        setValue(0);
-        break;
-      case '/user/home':
-        setValue(1);
-        break;
-      case '/user/profile':
-        setValue(2);
-        break;
-      default:
-        setValue(1); // default page
+    if (location.pathname === '/user/search') {
+      setValue(0);
+    } else if (location.pathname === '/user/home') {
+      setValue(1);
+    } else if (/^\/user\/profile/.test(location.pathname)) {
+      setValue(2);
+    } else {
+      setValue(1); // default page
     }
   }, [location.pathname]);
 

@@ -1,11 +1,52 @@
-import { Grid } from '@mui/material'
-import React, { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from '../components/navbar/Navbar'
-import CustomizeProgress from '../components/CustomizeProgress'
-import usuarioStore from '../store/usuarioStore'
+import { Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbar from '../components/navbar/Navbar';
+import { obtenerPublicaciones } from '../services/publicacionService';
+import useUsuarioCache from '../hooks/usuario/useUsuarioCache';
+import publicacionStore from '../store/publicacionesStore';
 
-const LayoutWithNavbar = ({ children }) => {
+const LayoutWithNavbar = () => {
+  const [fotos, setFotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { userCredentials } = useUsuarioCache();
+  const { getPublicaciones, setPublicacion } = publicacionStore();
+
+  const getPhotos = async () => {
+    const usuarioId = userCredentials.usuarioId;
+    const response = await obtenerPublicaciones(usuarioId);
+    if (response.success) {
+      const newFotos = response.message;
+      // Save new photos to local storage
+      for (let i = 0; i < newFotos.length; i++) {
+        await setPublicacion(newFotos[i].id, newFotos[i]);
+      }
+      // Combine local storage photos with new photos
+      const storedFotos = await getPublicaciones();
+      const combinedFotos = [...storedFotos, ...new Set(newFotos.filter(newFoto => !storedFotos.some(storedFoto => storedFoto.id === newFoto.id)))];
+      setFotos(combinedFotos);
+    }
+    setLoading(false);
+  };
+
+  const loadFotosFromStore = async () => {
+    const storedFotos = await getPublicaciones();
+    setFotos(storedFotos);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const initialize = async () => {
+      setLoading(true);
+      await loadFotosFromStore();
+      if (userCredentials.usuarioId) {
+        await getPhotos();
+      }
+    };
+
+    initialize();
+  }, [userCredentials]);
+
   return (
     <Grid
       container
@@ -17,7 +58,7 @@ const LayoutWithNavbar = ({ children }) => {
         item
         sx={{ flex: 1, overflowY: "auto", minHeight: "94dvh", maxHeight: "94dvh" }}
       >
-        {children}
+        <Outlet context={{ fotos }} />
       </Grid>
       <Grid
         id="navbar"
@@ -27,7 +68,7 @@ const LayoutWithNavbar = ({ children }) => {
         <Navbar />
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
-export default LayoutWithNavbar
+export default LayoutWithNavbar;
