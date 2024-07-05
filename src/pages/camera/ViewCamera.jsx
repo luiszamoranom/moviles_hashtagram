@@ -5,7 +5,6 @@ import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { NavbarPage } from "../../components/navbar/NavbarPage";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
 import WallpaperOutlinedIcon from '@mui/icons-material/WallpaperOutlined';
 import LayoutWithNavbar from "../LayoutWithNavbar";
 
@@ -70,8 +69,16 @@ const ViewCamera = () => {
       {/* esto mide 6vh */}
       <NavbarPage id='navbar-page' title={"Subir foto"} />
       {/* mide 84vh */}
-      <Grid id='contenido-page'
-        container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}
+      <Grid 
+        id='contenido-page'
+        container 
+        direction="column" 
+        alignItems="center" 
+        justifyContent="center" 
+        sx={{
+          minHeight: "88vh",
+          overflowY: "auto"
+        }}
       >
         {/* Foto capturada */}
         <Grid
@@ -79,6 +86,10 @@ const ViewCamera = () => {
           alignItems="center"
           justifyContent="center"
           direction="column"
+          sx={{
+            width: "100%",
+            mb: 2
+          }}
         >
           <Grid
             container
@@ -90,8 +101,8 @@ const ViewCamera = () => {
               display:'flex',
               justifyContent:'center',
               width: "95dvw",
-              height: "73vh",
-              maxHeight: "73vh"
+              minHeight: "70vh",
+              overflow: "hidden"
             }}
           >
             {
@@ -100,9 +111,6 @@ const ViewCamera = () => {
                 <Box
                   component="img"
                   sx={{
-                    alignItems:"center",
-                    display:'flex',
-                    justifyContent:'center',
                     maxWidth: "100%",
                     maxHeight: "100%",
                     objectFit: "contain"
@@ -133,13 +141,14 @@ const ViewCamera = () => {
           alignItems="center"
           gap={2}
           sx={{
-            height: "15vh",
+            minHeight: "15vh",
             width: "95vw",
-            mx: "auto"
+            mx: "auto",
+            mb: 6,
           }}
         >
           {photo && (
-            <Stack direction="row" gap={2}>
+            <Stack mb="2rem" direction="row" gap={2}>
               <Grid item xs={12}>
                 <Button
                   variant="contained"
@@ -169,7 +178,7 @@ const ViewCamera = () => {
                 Capturar
               </Button>
             </Grid>
-            <Grid item>
+            <Grid item mb="2rem">
               <Button
                 variant="contained"
                 onClick={() => pickImage()}

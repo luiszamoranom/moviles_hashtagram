@@ -1,21 +1,19 @@
-import { Box,  Button,  FormGroup,  Grid, IconButton, InputLabel, TextField, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { NavbarPage } from "../../components/navbar/NavbarPage";
-import useGeolocation from "../../hooks/useGeolocation";
-import { getCity } from "../../services/positionService";
 import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
-import { useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
-import { subirPublicacion } from "../../services/publicacionService";
-import useAlert from "../../hooks/useAlert";
+import { Box, Button, FormGroup, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomizeProgress from "../../components/CustomizeProgress";
+import { NavbarPage } from "../../components/navbar/NavbarPage";
 import CustomizeAlert from "../../components/shared/Alert";
-import Navbar from "../../components/navbar/Navbar";
-import LayoutWithNavbar from "../LayoutWithNavbar";
+import useAlert from "../../hooks/useAlert";
 import useCustomProgress from "../../hooks/useCustomProgress";
-import usuarioStore from "../../store/usuarioStore";
+import useGeolocation from "../../hooks/useGeolocation";
 import useUsuarioCache from "../../hooks/usuario/useUsuarioCache";
+import { getCity } from "../../services/positionService";
+import { subirPublicacion } from "../../services/publicacionService";
+import LayoutWithNavbar from "../LayoutWithNavbar";
 
 export const UploadPhoto = () => {
   const location = useLocation();
@@ -86,7 +84,7 @@ export const UploadPhoto = () => {
       <NavbarPage title={"Subida de publicación"} />
       <CustomizeProgress isOpen={loading} handleClose={handleClose} />
       <CustomizeAlert severity={severityAlert} isOpen={isOpenAlert} message={msgAlert} handleClose={handleCloseAlert} />
-      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{minHeight: "88vh", maxHeight: "88vh"}}>
+      <Grid container direction="column" alignItems="center" justifyContent="center" sx={{ minHeight: "88vh", overflowY: 'scroll'}}>
         <Grid
           container
           justifyContent="start"
@@ -100,7 +98,6 @@ export const UploadPhoto = () => {
             width: "90dvw",
             height: "53vh",
             maxHeight: '53vh',
-            overflowY: "scroll"
           }}
         >
           <Box
@@ -162,10 +159,10 @@ export const UploadPhoto = () => {
                 )}
               </Box>
             </Grid>
-            <Grid sx={{ width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+            <Grid mb="5rem" sx={{ width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
               <Button variant="contained" fullWidth size="large" onClick={handleSubmit(onSubmit)}
                 endIcon={<SendIcon fontSize="xl" />} sx={{ justifyContent: "space-between" }} >
-                <Typography variant="h6" overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>Subir publicación</Typography>
+                <Typography variant="h6" textOverflow='ellipsis' whiteSpace='nowrap'>Subir publicación</Typography>
               </Button>
             </Grid>
           </Grid>
