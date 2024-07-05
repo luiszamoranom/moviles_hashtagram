@@ -194,7 +194,7 @@ const Publicacion = ({datosImagen}) => {
             </Link>
           </Typography>
           <Typography>
-            Les fascina {datosImagen.foto.cantidad}.
+            Les fascina {datosImagen.foto._count.meGusta}.
           </Typography>
         </Grid>
         <Grid sx={{
