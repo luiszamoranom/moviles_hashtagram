@@ -49,3 +49,17 @@ export const eliminarMeGusta = async (in_interactuadorId, in_fotoId) => {
       return {success: false, status: error.response.status};
     }
   }
+
+  export const meGustasQueMeHanDado = async (usuarioId) => {
+    try {
+      const response = await axios.get(`${API_URL}/me-gusta/me-gusta-que-me-han-dado/${usuarioId}`)
+      if ( response.status === 200 ) {
+        return {success: true, message: response.data};
+      } else {
+        return {success: false, status: response.status};
+      }
+  
+    } catch (error) {
+      return {success: false, status: error.response.status};
+    }
+  }
