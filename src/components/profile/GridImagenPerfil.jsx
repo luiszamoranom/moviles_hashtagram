@@ -8,20 +8,14 @@ import {
   import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
   
   const GridImagenPerfil = ({ loadingSearch, photos }) => {
-    const numberColumns = (numberPhotos) => {
-      if (numberPhotos <= 3) return 1;
-      if (numberPhotos <= 12) return 2;
-      return 3;
-    };
-  
     return (
       <Grid 
         id='grid-imagenes-perfil' 
         container
         sx={{ width: "100%", height: "100%", borderTop: "1px solid", borderColor: 'gray', my: 2 }}
       >
-        {photos.length > 0 ? (
-          <ImageList sx={{ width: "100%", height: "100%" }} cols={numberColumns(photos.length)}>
+        {photos?.length > 0 ? (
+          <ImageList sx={{ width: "100%", height: "100%" }} cols={3}>
             {photos.map((photo, index) => (
               <ImageListItem key={index} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <Box

@@ -13,7 +13,6 @@ const ViewCamera = () => {
   const navigate = useNavigate();
 
   const [photo, setPhoto] = useState(null);
-
   const convertToBase64 = async (url) => {
     return fetch(url)
       .then(response => response.blob())
@@ -34,7 +33,7 @@ const ViewCamera = () => {
         const cameraPhoto = await Camera.getPhoto({
           resultType: CameraResultType.DataUrl,
           source: CameraSource.Camera,
-          quality: 100,
+          quality: 30,
         });
         if (cameraPhoto?.dataUrl) {
           setPhoto(cameraPhoto.dataUrl);
@@ -50,7 +49,7 @@ const ViewCamera = () => {
     try {
       const cameraPhoto = await Camera.pickImages({
         resultType: CameraResultType.DataUrl,
-        quality: 100,
+        quality: 30,
       });
       
       if (cameraPhoto.photos.length > 0 && cameraPhoto.photos[0]?.webPath) {
@@ -67,7 +66,7 @@ const ViewCamera = () => {
   };
 
   return (
-    <LayoutWithNavbar>
+    <Grid>
       {/* esto mide 6vh */}
       <NavbarPage id='navbar-page' title={"Subir foto"} />
       {/* mide 84vh */}
@@ -157,27 +156,27 @@ const ViewCamera = () => {
             </Stack>
           )}
           <Stack direction="row" gap={2}>
-            <Grid item xs={8}>
+            <Grid item>
               <Button
                 variant="contained"
                 onClick={() => takePicture()}
                 startIcon={<CameraAltIcon />}
                 sx={{
                   textTransform: "none",
-                  fontSize: 20,
+                  fontSize: 15,
                 }}
               >
                 Capturar
               </Button>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item>
               <Button
                 variant="contained"
                 onClick={() => pickImage()}
                 startIcon={<CollectionsIcon />}
                 sx={{
                   textTransform: "none",
-                  fontSize: 20,
+                  fontSize: 15,
                 }}
               >
                 Galería
@@ -186,7 +185,7 @@ const ViewCamera = () => {
           </Stack>
         </Grid>
       </Grid>
-    </LayoutWithNavbar>
+    </Grid>
   );
 };
 

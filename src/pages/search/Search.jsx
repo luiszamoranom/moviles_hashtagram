@@ -41,7 +41,7 @@ export const Search = () => {
   };
 
   return (
-    <LayoutWithNavbar>
+    <Grid>
        <Grid
         id="contenido-page"
         container
@@ -116,6 +116,6 @@ export const Search = () => {
           ) }
           </Grid>
       </Grid>
-    </LayoutWithNavbar>
+    </Grid>
   );
 };

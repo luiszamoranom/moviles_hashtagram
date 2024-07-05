@@ -23,9 +23,9 @@ export const subirPublicacion = async (propietario,descripcion,ubicacion,base64,
   }
 }
 
-export const obtenerPublicaciones = async () => {
+export const obtenerPublicaciones = async (usuarioId) => {
   try{
-    const response = await axios.get(`${API_URL}/foto`)
+    const response = await axios.get(`${API_URL}/foto/no-ocultadas/${usuarioId}`)
     if (response){
       return {success:true,message:response.data}
     }
