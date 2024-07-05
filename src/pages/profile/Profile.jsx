@@ -60,21 +60,21 @@ const Profile = () => {
                     >
                         {
                         usuario?.fotoExtension ? (
-                        <Box
-                            component="img"
-                            sx={{
-                            borderRadius: "50%",
-                            width: "90%",
-                            height: "auto",
-                            display: 'block',
-                            objectFit: 'cover',
-                            aspectRatio: '1/1'
-                            }}
-                            alt="Foto capturada"
-                            src={`data:image/${usuario.fotoExtension};base64,${usuario.fotoPerfil}`}
-                        />
+                            <Box
+                                component="img"
+                                sx={{
+                                borderRadius: "50%",
+                                width: "90%",
+                                height: "auto",
+                                display: 'block',
+                                objectFit: 'cover',
+                                aspectRatio: '1/1'
+                                }}
+                                alt="Foto capturada"
+                                src={`data:image/${usuario.fotoExtension};base64,${usuario.fotoPerfil}`}
+                            />
                         ) : (
-                        <Skeleton animation="wave" variant="circular" width={'100%'} height={'100%'} />
+                            <Skeleton animation="wave" variant="circular" width={'100%'} height={'100%'} />
                         )}
                     </Grid>
                     <Grid

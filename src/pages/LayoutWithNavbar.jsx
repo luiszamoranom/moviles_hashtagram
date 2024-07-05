@@ -31,11 +31,24 @@ const LayoutWithNavbar = () => {
       }
       // Combine local storage photos with new photos
       const storedFotos = await getPublicaciones();
-      const combinedFotos = [...storedFotos, ...new Set(newFotos.filter(newFoto => !storedFotos.some(storedFoto => storedFoto.id === newFoto.id)))];
+      console.log(storedFotos)
+      const combinedFotos = [...storedFotos, ...new Set(newFotos.filter(newFoto => !storedFotos.some(storedFoto => storedFoto.foto.id === newFoto.foto.id)))];
       setFotos(combinedFotos);
     }
     setLoading(false);
   };
+
+  const actualizar = async () => {
+    const usuarioId = userCredentials.usuarioId;
+    const response = await obtenerPublicaciones(usuarioId);
+    if (response.success) {
+      const newFotos = response.message;
+      for (let i = 0; i < newFotos.length; i++) {
+        await setPublicacion(newFotos[i].foto.id, newFotos[i]);
+      }
+      setFotos(response.message)
+    }
+  }
 
   const loadFotosFromStore = async () => {
     const storedFotos = await getPublicaciones();
@@ -56,7 +69,7 @@ const LayoutWithNavbar = () => {
   }, [userCredentials]);
 
   return (
-    <FotosContext.Provider value={{ fotos, getPhotos }}>
+    <FotosContext.Provider value={{ fotos, getPhotos,actualizar }}>
       <Grid
         container
         direction="column"

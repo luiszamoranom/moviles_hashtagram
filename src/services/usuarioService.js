@@ -40,6 +40,7 @@ export const obtenerMetadatosUsuario = async (id) => {
 }
 export const actualizarMetadatosUsuario = async (id,nombreCompleto,nombreUsuario,descripcion,fotoPerfil,fotoExtension,habilitado) => {
   try {
+    console.log(fotoPerfil)
     const response = await axios.put(`${API_URL}/usuario/${id}`,{
       nombreCompleto,nombreUsuario,descripcion,fotoPerfil,fotoExtension,habilitado
     })
