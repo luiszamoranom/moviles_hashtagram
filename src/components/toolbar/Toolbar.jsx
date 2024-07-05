@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import CustomNotification from "./Notification";
 import { useState } from 'react';
 import { DrawerNotifications } from './DrawerNotifications';
+import { useFotos } from "../../pages/LayoutWithNavbar";
 
 const ToolbarCustom = () => {
 
   const navigate = useNavigate();
-
+  const { getPhotos } = useFotos()
   const [openNotifications, setOpenNotifications] = useState(false);
 
   const handleToggleNotifications = (open) => {
@@ -25,30 +26,35 @@ const ToolbarCustom = () => {
           padding: "0",
         }}
       >
-        <CustomNotification openNotifications={ handleToggleNotifications } />
+        <Grid id='notificaciones' sx={{paddingX:'1.25rem',paddingY:'0.1rem',display:'flex',justifyContent:'center'}}>
+          <CustomNotification openNotifications={ handleToggleNotifications } />
+        </Grid>
 
         <Drawer
           anchor="top"
           open={openNotifications}
           onClose={() => handleToggleNotifications(false)}  
         >
-          <DrawerNotifications toggleDrawer={ handleToggleNotifications } />
+        <DrawerNotifications toggleDrawer={ handleToggleNotifications } />
         </Drawer>
+        <button id='logo' style={{border:'0',backgroundColor:'transparent'}}
+        onClick={getPhotos}>
+          <Typography
+            variant="h4"
+            textAlign="center"
+            component="div"
+            sx={{
+              color: "primary.main",
+              fontFamily: "Lobster",
+              fontWeight: "semibold",
+            }}
+          >
+            Hashtagram
+          </Typography>
+        </button>
+       
 
-        <Typography
-          variant="h4"
-          textAlign="center"
-          component="div"
-          sx={{
-            color: "primary.main",
-            fontFamily: "Lobster",
-            fontWeight: "semibold",
-          }}
-        >
-          Hashtagram
-        </Typography>
-
-        <Button onClick={() => navigate("/user/camara")}>
+        <Button id='camara' onClick={() => navigate("/user/camara")}>
           <CameraAltRoundedIcon />
         </Button>
         {/* <ViewCamera /> */}

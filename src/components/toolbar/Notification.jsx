@@ -3,7 +3,7 @@ import { Badge } from "@mui/material";
 
 const CustomNotification = ({ notifications = 0, openNotifications }) => {
   return (
-    <Badge badgeContent={notifications} color="primary" sx={{ ml: 2 }}>
+    <Badge badgeContent={notifications} color="primary" >
       <NotificationsRoundedIcon 
         color="primary" 
         fontSize="medium"
