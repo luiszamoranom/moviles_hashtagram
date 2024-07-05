@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import LayoutWithNavbar from '../LayoutWithNavbar'
+import LayoutWithNavbar, { useFotos } from '../LayoutWithNavbar'
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useForm } from 'react-hook-form'
@@ -18,6 +18,7 @@ import CustomizeAlert from '../../components/shared/Alert';
 
 const EditProfile = () => {
     const location = useLocation()
+    const {actualizar} = useFotos()
     const [usuario,setUsuario] = useState()
     const [imagePreview, setImagePreview] = useState('');
     const {setUser} = usuarioStore()
@@ -122,11 +123,16 @@ const EditProfile = () => {
           console.error("Error picking image", error);
         }
     };
-
+    
     const onSubmit = async (data) => {
         setLoading(true)
+        let particionar = imagePreview.split(";")
+        let parte_uno = particionar[0].split("/")
+        let extension = parte_uno[1]
+        let parte_dos = particionar[1].split(",")
+        let base = parte_dos[1]
         const response = await actualizarMetadatosUsuario(usuario.id,watch('nombreCompleto'),watch('nombreUsuario'),
-            watch('descripcion'),watch('fotoPerfil'),watch('fotoExtension'),watch('habilitado'))
+            watch('descripcion'),base,extension,watch('habilitado'))
         setLoading(false)
         if (response.success){
           setMsgAlert(response.message)
